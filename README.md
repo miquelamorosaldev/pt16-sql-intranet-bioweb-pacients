@@ -1,4 +1,4 @@
-# pt16-intranet-bioweb-pacients
+# pt16-sql-intranet-bioweb-pacients
 
 ## ESTAT VERSIÓ: 
 Plantilla PT16. INCOMPLET.
