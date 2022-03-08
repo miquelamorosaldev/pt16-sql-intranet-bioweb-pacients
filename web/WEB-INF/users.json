@@ -1,0 +1,19 @@
+{
+	"users": [
+		{
+			"username": "dawbio1",
+			"password": "zqXUGxblz37qSchfgfdshg==",
+			"role": "user"
+		},
+		{
+			"username": "dawbio2",
+			"password": "zqXUGxblz37qSchfgfdshg==",
+			"role": "admin"
+		},
+		{
+			"username": "daw",
+			"password": "zqXUGxblz37qSchfgfdshg==",
+			"role": "user"
+		}
+	]
+}
