@@ -1,7 +1,9 @@
-# pt15-intranet-bioweb-pacients
+# pt16-intranet-bioweb-pacients
 
 ## ESTAT VERSIÓ: 
-Plantilla PT15, el login està fet. 
+Plantilla PT16. INCOMPLET.
+L'objectiu és continuar el projecte de la PT15, amb connexió a una base de dades MySQL o MariaDb. 
+Aprofitarem per afegir alguna funcionalitat més: més opcions de cerca i opcions de CRUD pels pacients. 
 
 ## REQUERIMENTS
 * Desenvolupament multiplataforma, prioritzant l'ús de Linux Ubuntu 20.04
