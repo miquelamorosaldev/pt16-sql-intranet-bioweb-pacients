@@ -2,6 +2,7 @@
 
 ## ESTAT VERSIÓ: 
 Plantilla PT16. INCOMPLET.
+
 L'objectiu és continuar el projecte de la PT15, amb connexió a una base de dades MySQL o MariaDb. 
 Aprofitarem per afegir alguna funcionalitat més: més opcions de cerca i opcions de CRUD pels pacients. 
 
@@ -16,52 +17,23 @@ Aprofitarem per afegir alguna funcionalitat més: més opcions de cerca i opcion
 
 ## DESCRIPCIÓ DEL PROJECTE:
 
-L’ICS ens ha demanat la segona fase d’una aplicació web per a gestionar dades bàsiques de pacients de la secció d’oncologia. 
-Volen un portal web amb una intranet on només es podran connectar els usuaris autoritzats. 
+L’ICS ens ha demanat una tercera fase d’una aplicació web per a gestionar dades bàsiques de pacients de
+la secció d’oncologia; que consisteix en guardar de forma bona part la intranet d’un portal web les
+funcionalitats de l’anterior versió.
 
-Els interessa tenir aquestes funcionalitats concretes. 
+Per tant, apart que les funcionalitats concretes de la Pt14 i Pt15 funcionin ens interessa que la web ens dirigeixi a un formulari de login d’usuaris 
+(amb usuari i contrasenya) que validi els usuaris a través d’un sistema segur (ja sigui a través de fitxers JSON o CSV o amb base de dades SQL).
+Només en el cas que l’usuari i contrasenya tinguin un format valid i existeixin a la base de dades d’usuaris podrem realitzar les operacions que haviem creat abans (llista pacients, editar/crear nous pacients, filtrar pacients per criteris de cerca, etc...)
 
-Necessiten una aplicació web senzilla; amb 3 opcions de menú:
+## FUNCIONALITATS REALITZAR
+* Login d’usuaris, que es validin a través de base de dades (usuaris visitants, no registrats)
+* Llistat d’usuaris de la Base de dades (només per a administradors)
+* Logout (usuaris registrats)
+* Filtrar la llista de pacients per RH, Grup Sanguini i altres ...
+* Editar i eliminar pacients. (NOVA FUNCIONALITAT OBLIGATÒRIA PER LA PT16)
+* Mostrar la informació dels pacients en un web service. (NOVA FUNCIONALITAT OBLIGATÒRIA PER LA PT16)
 
-### Estudi de Cadenes d’ADN.
-Una pàgina que, donada un tros de cadena d’ADN de com a molt 1000 caràcters, verifiqui si és vàlida i mostri el número de A, G, C i T de l’ADN passat per pantalla. 
-Cal informar a l’usuari si no ha inserit una cadena ADN correcta.
-
-### Llistat de pacients.
-Una pàgina que mostrarà el tot llistat de pacients en una taula. Cal tenir-ne 4 de inserits inicialment. 
-
-### Filtre de pacients per un o 2 criteris.
-Una pàgina que mostrarà llistat de pacients en una taula, i permetrà filtrar-lo per algún camp rellevant: RH, Gènere.
-Amb 1 o 2 criteris és suficient.
-Hi ha 2 formes per a pintar els resultats:
-* Des d'un ArrayList<Patient> extret d'una JSP.
-* Des d'un JSON, així no cal usar una JSP per a pintar els resultats.
-    
-### OPCIONAL. Filtre de pacients per cognom i/o nom, amb un camp autoemplenable.
-
-### Afegir pacient (només usuaris admin)
-Una pàgina amb un formulari on l’usuari podrà omplir les dades d’un pacient i guardar-lo al sistema. 
-Cal informar a l’usuari si ha pogut registrar el pacient o bé no ha omplert tots els camps correctament. 
-
-### Llistat d'usuaris (només usuaris admin)
-Una pàgina on es mostri el llistat d'usuaris. 
-
-
-## Observacions importants.
-
-Les dades dels pacients, ara per ara, seran:
-
-#### Nom → text
-#### Cognoms → text 
-#### Genere (home, done, NC) → select o option
-#### GrupSanguini→ select o option
-#### RH → select o option
-#### pes → text, validació número
-#### alcada → text, validació número
-
-Les dades en aquesta fase no seran persistents.
-Per ara, es guardaran en memòria mitjançant un ArrayList però es preveu que en un futur (el 2022) es gestionin en una base de dades SQL; així que es valorarà positivament usar el patró DAO per a poder fer el canvi d’escenari fàcilment.
-
-## Algunes de les tasques que es preveu implementar en un futur.
-    * Mostrar la informació dels pacients en un web service.
-    * Mostrar aquesta llista amb un estil RWD, que es vegi bé en totes les pantalles. 
+## FUNCIONALITATS JA FETES (NOMÉS DISPONIBLES PER USUARIS REGISTRATS).
+* Tractament cadenes ADN
+* Llistat de pacients
+* Afegir pacient (només per a usuaris admin)
