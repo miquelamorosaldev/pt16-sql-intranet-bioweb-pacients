@@ -9,6 +9,8 @@ package patients;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import patients.model.IPatientsDAO;
 import patients.model.Patient;
 import patients.model.PatientsMemoryDAO;
+import patients.model.PatientsSQLDAO;
+import users.UserController;
 
 /**
  *
@@ -31,12 +35,21 @@ public class PatientsController extends HttpServlet {
     /**
      * Llama a la clase Manager de los pacientes de la app.
      */
-    IPatientsDAO patientsDAO;
-    
+    IPatientsDAO patientsManager;
+   
     @Override
     public void init(ServletConfig config) throws ServletException{
-        patientsDAO = new PatientsMemoryDAO();
         super.init(config);
+        String path = getServletContext().getRealPath("/WEB-INF");
+        
+        try {
+             // Debug
+             // patientsDAO = new PatientsMemoryDAO();
+            // Inyectamos el DAO de la fuente que preferimos.
+            patientsManager = new PatientsSQLDAO(path);
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -79,12 +92,11 @@ public class PatientsController extends HttpServlet {
             response.sendRedirect("login.jsp");
         } else {
             // 2. Obtenim la llista de pacients.
-            PatientsMemoryDAO daoPatients = new PatientsMemoryDAO();
-            List<Patient> resultList = daoPatients.listAllPatients();
+            List<Patient> resultList = patientsManager.listAllPatients();
 
             // 3. Enviem la llista resultant a la JSP 
             request.setAttribute("patientsList", resultList);
-            RequestDispatcher rd = request.getRequestDispatcher("listAllPatients.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
             rd.forward(request, response);
         }
     }

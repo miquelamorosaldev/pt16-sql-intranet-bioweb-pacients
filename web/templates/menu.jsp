@@ -41,7 +41,7 @@
            href='../intranet/listAllPatients.jsp'>List Patients</a> 
         -->
         <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
-           href='<%= request.getContextPath() %>/intranet/listAllPatients.jsp'>List Patients</a> 
+           href='<%= request.getContextPath() %>/patient?action=ListAll'>List Patients</a> 
         <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
            href='<%= request.getContextPath() %>/intranet/filterPatients.jsp'>Filter Patients</a>
         <!--
