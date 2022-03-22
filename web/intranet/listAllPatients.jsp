@@ -24,7 +24,7 @@
                 <h3>List Patients</h3>
                     <!-- List All Friends  -->
                     <c:if test="${patientsList != null}">
-                        <!-- <form action="patientController" method="POST"> -->
+                        <form action="patientController" method="POST">
                             <table class="table">
                                 <thead class="thead-dark">
                                     <tr>
@@ -33,6 +33,7 @@
                                         <th scope="col">AgeGroup</th>
                                         <th scope="col">IMC</th>
                                         <th scope="col">Classificació</th>
+                                        <th scope="col">Del?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,11 +44,16 @@
                                             <td>${patient.ageGroup}</td>
                                             <td>${patient.imc}</td>
                                             <td>${patient.classification}</td>
+                                            <td scope="col">
+                                                <button class="btn btn-danger" type="submit" value="${patient.registerId}" name="friend">X</button>
+                                                <input type="hidden" name="action" value="patientToDelete"/>
+                                            </td>
                                         </tr>
                                     </c:forEach>
+
                                 </tbody>
                             </table>
-                        <!-- </form>  -->
+                        </form> 
                     </c:if>
                     <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
             </div>

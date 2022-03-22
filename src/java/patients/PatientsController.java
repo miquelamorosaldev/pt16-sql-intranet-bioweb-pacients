@@ -73,6 +73,17 @@ public class PatientsController extends HttpServlet {
                 case "FILTER_BYCLASSIFICATION":
                     filterByClassification(request,response);
                 break;
+                
+                // NO HO NECESSITEM.
+//                case "DeletePatient":
+//                    //response.sendRedirect("friend.jsp?showFormDelete=1");
+//                    deletePatientForm(request, response);
+//                    break;
+                
+                // TODO PENDENT.
+                case "patientToDelete":
+                    // deleteFriend(request, response);
+                    break;
             }  
         } else{
             response.sendRedirect("login.jsp");
@@ -131,6 +142,55 @@ public class PatientsController extends HttpServlet {
         }
     }
 
+   
+    private void deletePatientForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+         List<Patient> patientsList = patientsManager.listAllPatients();
+          if (patientsList.isEmpty()) {
+            request.setAttribute("error", "There aren't friends");
+        }
+
+        request.setAttribute("patientsList", patientsList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listPatients.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    /* private void deleteFriend(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+//        System.out.println("aaaaa");
+        String friendIdForm = request.getParameter("friend");
+        int friendId = Integer.parseInt(friendIdForm);
+            
+//        String[] friendParams = friend.split(";");
+        Friend deleteFriend 
+                = new Friend(friendId);
+
+        friendAdo = new FriendDAO(ruta);
+
+        int rowsAffected = friendAdo.remove(deleteFriend);
+
+        if (rowsAffected > 0) {
+            request.setAttribute("success", "Friend " + friendId + " DELETED ;) !");
+        } else {
+            switch (rowsAffected) {
+                case -1:
+                    request.setAttribute("error", "Friend not deleted due to a Constraint fail.");
+                    break;
+                case -2:
+                    request.setAttribute("error", "Friend not deleted due to an Error, contact administrator.");
+                    break;
+                default:
+                    response.sendRedirect("friend.jsp");
+            }
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("category.jsp");
+        dispatcher.forward(request, response);
+    }
+    */
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
