@@ -1,7 +1,6 @@
 <%@page import="patients.model.IPatientsDAO" %>
 <%@page import="patients.model.PatientsMemoryDAO" %>
 <%@page import="patients.model.Patient" %>
-<%@page import="patients.model.PatientsSQLDAO" %>
 <%@page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
@@ -20,15 +19,10 @@
         </header>
         <main>
             <div class="container mw-100"> 
-                <h3>List Patients</h3>
+                    <h3>List Patients</h3>
                     <ul>
                     <% 
-                        // PatientsMemoryDAO daoPatients = new PatientsMemoryDAO();
-                        // PatientsSQLDAO
-                        // Inyectamos el DAO de la fuente que preferimos.
-                        String path = getServletContext().getRealPath("/WEB-INF");
-                        IPatientsDAO daoPatients = new PatientsSQLDAO(path);
-                        
+                        PatientsMemoryDAO daoPatients = new PatientsMemoryDAO();
                         List<Patient> resultList = daoPatients.listAllPatients();
                         for(Patient pa: resultList) {
                     %>
@@ -38,6 +32,18 @@
                     %>
                     </ul>
                     <p><%=resultList.size()%> pacientes encontrados.</p>
+                    <h4>List Woman Patients</h4>
+                    <ol style="list-style-type:lower-alpha">
+                    <% 
+                        List<Patient> resultListWoman = daoPatients.listWomanPatients();
+                        for(Patient paW: resultListWoman) {
+                    %>
+                    <li><%=paW.toString()%></li>
+                    <% 
+                        }
+                    %>
+                    </ol>
+                    <p><%=resultListWoman.size()%> pacientes encontradas.</p>
             </div>
         </main>
         <footer>
