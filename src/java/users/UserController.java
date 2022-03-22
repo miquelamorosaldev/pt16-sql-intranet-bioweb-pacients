@@ -130,7 +130,7 @@ public class UserController extends HttpServlet {
            String password=request.getParameter("password");    
            // Si l'usuari amb contrassenya existeix a la nostra base de dades.
            User loginUser = usersManager.login(username,password);
-           if(loginUser!=null && loginUser.getUsername().equals(username)){
+           if(loginUser.getPassword()!=null && loginUser.getUsername().equals(username)){
                try {
                    // Creem una nova variable de sessió
                    // Per prevenir el robatori de sessió o hickjacking: hijacking
