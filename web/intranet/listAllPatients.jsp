@@ -22,7 +22,6 @@
         <main>
             <div class="container mw-100"> 
                 <h3>List Patients</h3>
-                    <ul>
                     <!-- List All Friends  -->
                     <c:if test="${patientsList != null}">
                         <!-- <form action="patientController" method="POST"> -->
@@ -50,7 +49,7 @@
                             </table>
                         <!-- </form>  -->
                     </c:if>
-                    <p>${patientsList.size()} pacientes encontrados.</p>
+                    <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
             </div>
         </main>
         <footer>

@@ -70,8 +70,8 @@ public class PatientsController extends HttpServlet {
                 case "ListAll":
                     listAll(request,response);
                 break;
-                case "Filter":
-                    filter(request,response);
+                case "FILTER_BYCLASSIFICATION":
+                    filterByClassification(request,response);
                 break;
             }  
         } else{
@@ -101,7 +101,7 @@ public class PatientsController extends HttpServlet {
         }
     }
 
-    private void filter(HttpServletRequest request, HttpServletResponse response) 
+    private void filterByClassification(HttpServletRequest request, HttpServletResponse response) 
              throws ServletException, IOException {
         // 1. Verifiquem la sessió.
         // Agafem les dades de la sessió.
@@ -110,45 +110,23 @@ public class PatientsController extends HttpServlet {
             response.sendRedirect("login.jsp");
         } else {
             // 2. Agafem les dades del filtre de pacients.
-            String rh_form = request.getParameter("rh_form");
-            String bloodType_form = request.getParameter("bloodType_form");
+//            String rh_form = request.getParameter("rh_form");
+//            String bloodType_form = request.getParameter("bloodType_form");
+            String classification = request.getParameter("classfication_filter");
             
             // 2.2 Validem les dades del formulari. Si ens retornen valor nul 
             // (en el nostre cas un valor -)
-            boolean RHSelected = !rh_form.equals("*");
-            boolean BloodSelected = !bloodType_form.equals("*");   
+            boolean classificationSelected = !classification.equals("*");
+            // boolean BloodSelected = !bloodType_form.equals("*");   
             
-            // 3. Cridem PatientsDAO per a què ens retorni la llista de pacients 
+            // 3. Cridem patientsManager per a què ens retorni la llista de pacients 
             // filtrada.
-            PatientsMemoryDAO daoPatients = new PatientsMemoryDAO();
-            List<Patient> resultList = new ArrayList<Patient>(); 
+            List<Patient> patientsList = patientsManager.filterByClassification(classification);
             
-            if(RHSelected && BloodSelected) {
-                resultList 
-                    = daoPatients.listPatientsByBloodTypeAndRH
-                        (bloodType_form,rh_form);
-            }
-            if(RHSelected && !BloodSelected) {
-               resultList 
-                    = daoPatients.listPatientsByRH(rh_form); 
-            }
-            if(!RHSelected && BloodSelected) {
-                resultList 
-                    = daoPatients.listPatientsByBloodType(bloodType_form);
-            }
-            if(!RHSelected && !BloodSelected) {
-                resultList 
-                    = daoPatients.listAllPatients();
-            }
             // 4. Enviem la llista resultant a la JSP 
-            request.setAttribute("patientsList", resultList);
-            // ./intranet/filterPatients.jsp
-            // response.sendRedirect("../intranet/filterPatients.jsp");
+            request.setAttribute("patientsList", patientsList);
             // https://stackoverflow.com/questions/24905788/dispatch-request-to-jsp-page-in-specific-folder
             RequestDispatcher rd = request.getRequestDispatcher("./intranet/filterPatients.jsp");
-            // no error rutas pero no envia nada.
-            // response.sendRedirect("./intranet/filterPatients.jsp");
-            // error rutas.
             rd.forward(request, response);
         }
     }

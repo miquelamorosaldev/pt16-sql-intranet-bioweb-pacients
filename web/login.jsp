@@ -41,7 +41,7 @@
                   //out.println("Usuario y/o contraseña incorrectas");
 
                    String error=request.getParameter("error");
-                   if(error.equals("1")) out.println("Usuario y/o contraseña incorrectas");
+                   if(error.equals("1")) out.println("<p class='alert alert-success'>Usuario y/o contraseña incorrectas</p>");
                } 
 
             %>

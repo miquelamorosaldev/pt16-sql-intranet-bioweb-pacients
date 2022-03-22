@@ -17,4 +17,6 @@ public interface IPatientsDAO {
     boolean addPatient(Patient patient);
     List<Patient> listWomanPatients();
     List<Patient> listPatientsByRH(String rh);
+
+    public List<Patient> filterByClassification(String classification);
 }

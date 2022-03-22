@@ -111,5 +111,10 @@ public class PatientsMemoryDAO implements IPatientsDAO{
         }
         return filteredPatients;
     }
+
+    @Override
+    public List<Patient> filterByClassification(String classification) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

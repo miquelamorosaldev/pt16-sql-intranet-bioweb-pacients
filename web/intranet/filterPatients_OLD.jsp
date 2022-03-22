@@ -2,7 +2,6 @@
 <%@page import="patients.model.PatientsMemoryDAO" %>
 <%@page import="patients.model.Patient" %>
 <%@page import="java.util.*" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,6 +16,11 @@
             <!-- Ull amb les rutes. En aquest cas és .. (carpeta anterior) /templates -->
             <%@include file="../templates/menu.jsp" %>
             <%@include file="./userValidation.jsp" %>
+            <% List<Patient> patientsList = new ArrayList<>();
+               if(request.getAttribute("patientsList")!=null) {
+                     patientsList = (List<Patient>) request.getAttribute("patientsList"); 
+               } 
+             %>
         </header>
         <main>
             <div class="container mw-100"> 
@@ -35,14 +39,13 @@
                             </select>
                         </div> -->
                         <div class="form-group row">
-                            <label class="input-group-prepend col-sm-3" for="classfication_filter">
-                                Classficació resultats estudi.
+                            <label class="input-group-prepend col-sm-2" for="classfication_filter">
+                                RH Filter
                             </label>
-                            <select class="form-control custom-select col-sm-3" name="classfication_filter" id="classfication_filter">
+                            <select class="form-control custom-select col-sm-3" name="rh_form" id="rh_form">
                                 <option value="*">---</option>
-                                <option value="NORMAL">NORMAL</option>
-                                <option value="OSTEOPENIA">OSTEOPENIA</option>
-                                <option value="OSTEOPOROSI">OSTEOPOROSI</option>
+                                <option value="+">RH+</option>
+                                <option value="-">RH-</option>
                             </select>
                         </div>
                         <!--
@@ -60,7 +63,7 @@
                         </div>
                         -->
                         <button type="submit" form="filter_form" class="btn btn-primary col-sm-2" 
-                            name="action" value="FILTER_BYCLASSIFICATION">Filtrar</button>
+                            name="action" value="Filter">Filter</button>
                     </form>
 
                         <!-- 
@@ -75,37 +78,20 @@
                             Aquí irá la lista de resultados 
                             después de aplicar el filtro. 
                         -->
-                <!-- List All Friends  -->
-                    <c:if test="${patientsList != null}">
-                        <!-- <form action="patientController" method="POST"> -->
-                            <table class="table">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">Patient ID</th>
-                                        <th scope="col">Age</th>
-                                        <th scope="col">AgeGroup</th>
-                                        <th scope="col">IMC</th>
-                                        <th scope="col">Classificació</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${patientsList}" var="patient">
-                                        <tr>
-                                            <td scope="row">${patient.registerId}</td>
-                                            <td>${patient.age}</td>
-                                            <td>${patient.ageGroup}</td>
-                                            <td>${patient.imc}</td>
-                                            <td>${patient.classification}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                            <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
-                        <!-- </form>  -->
-                    </c:if>
-                    <c:if test="${patientsList == null}">
-                        <p class="alert alert-danger">No hay pacientes encontrados.</p>
-                    </c:if>
+                        <ul>
+                        <% 
+                            for(Patient pa: patientsList) {
+                        %>
+                            <li><%=pa.toString()%></li>
+                        <% 
+                            }
+                        %>
+                        </ul>
+                        <% if(patientsList.size()>0) { %>
+                            <p><%=patientsList.size()%> pacientes encontrados.</p>
+                        <% } else {%>
+                            <p class="error">No hemos encontrado pacientes.</p>
+                        <% } %>
             </div>
         </main>
         <footer>
