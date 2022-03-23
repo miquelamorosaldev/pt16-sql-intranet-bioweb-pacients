@@ -19,4 +19,5 @@ public interface IPatientsDAO {
     List<Patient> listPatientsByRH(String rh);
 
     public List<Patient> filterByClassification(String classification);
+    public int remove(Patient patient);
 }

@@ -136,6 +136,21 @@ public class PatientsSQLDAO implements IPatientsDAO{
         return queries.getProperty(queryName);
     }
 
+    
+    public int remove(Patient patient) {
+        int rowsAffected = 0;
+
+        try ( Connection conn = dataSource.getConnection();
+              PreparedStatement pst = conn.prepareStatement(getQuery("DELETE")); )
+        {
+            pst.setInt(1, patient.getRegisterId());
+            rowsAffected = pst.executeUpdate();
+        } catch (SQLException e) {
+            rowsAffected = -2;
+        }
+
+        return rowsAffected;
+    }
 
     @Override
     public boolean addPatient(Patient patient) {

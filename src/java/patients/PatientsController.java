@@ -82,7 +82,7 @@ public class PatientsController extends HttpServlet {
                 
                 // TODO PENDENT.
                 case "patientToDelete":
-                    // deleteFriend(request, response);
+                    deletePatient(request, response);
                     break;
             }  
         } else{
@@ -135,60 +135,47 @@ public class PatientsController extends HttpServlet {
             List<Patient> patientsList = patientsManager.filterByClassification(classification);
             
             // 4. Enviem la llista resultant a la JSP 
-            request.setAttribute("patientsList", patientsList);
+            session.setAttribute("patientsList", patientsList);
             // https://stackoverflow.com/questions/24905788/dispatch-request-to-jsp-page-in-specific-folder
             RequestDispatcher rd = request.getRequestDispatcher("./intranet/filterPatients.jsp");
             rd.forward(request, response);
         }
     }
 
-   
-    private void deletePatientForm(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-         List<Patient> patientsList = patientsManager.listAllPatients();
-          if (patientsList.isEmpty()) {
-            request.setAttribute("error", "There aren't friends");
-        }
+  
 
-        request.setAttribute("patientsList", patientsList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listPatients.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    /* private void deleteFriend(HttpServletRequest request, HttpServletResponse response)
+    private void deletePatient(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        System.out.println("aaaaa");
-        String friendIdForm = request.getParameter("friend");
-        int friendId = Integer.parseInt(friendIdForm);
+        String patientIdForm = request.getParameter("patient");
+        int patientId = Integer.parseInt(patientIdForm);
             
 //        String[] friendParams = friend.split(";");
-        Friend deleteFriend 
-                = new Friend(friendId);
+        Patient deletePatient 
+                = new Patient(patientId);
 
-        friendAdo = new FriendDAO(ruta);
-
-        int rowsAffected = friendAdo.remove(deleteFriend);
+        int rowsAffected = patientsManager.remove(deletePatient);
 
         if (rowsAffected > 0) {
-            request.setAttribute("success", "Friend " + friendId + " DELETED ;) !");
+            request.setAttribute("success", "Patient " + patientId + " DELETED ;) !");
+            // Recarreguem la llista després d'esborrar un element.
+            List<Patient> resultList = patientsManager.listAllPatients();
+            request.setAttribute("patientsList", resultList);
         } else {
             switch (rowsAffected) {
                 case -1:
-                    request.setAttribute("error", "Friend not deleted due to a Constraint fail.");
+                    request.setAttribute("error", "Patient not deleted due to a Constraint fail.");
                     break;
                 case -2:
-                    request.setAttribute("error", "Friend not deleted due to an Error, contact administrator.");
+                    request.setAttribute("error", "Patient not deleted due to an Error, contact administrator.");
                     break;
                 default:
-                    response.sendRedirect("friend.jsp");
+                    response.sendRedirect("./intranet/listAllPatients.jsp");
             }
         }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("category.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
         dispatcher.forward(request, response);
     }
-    */
     
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

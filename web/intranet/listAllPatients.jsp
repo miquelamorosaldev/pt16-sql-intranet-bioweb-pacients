@@ -22,9 +22,16 @@
         <main>
             <div class="container mw-100"> 
                 <h3>List Patients</h3>
+                    <%-- requestScope, Per a llegir  request.getAttribute dels servlets --%>
+                    <c:if test="${requestScope.sucess != null}">
+                        <p class='alert alert-success'>${requestScope.sucess}</p>
+                    </c:if>
+                    <c:if test="${requestScope.error != null}">
+                        <p class='alert alert-warning'>${requestScope.error}</p>
+                    </c:if>
                     <!-- List All Friends  -->
                     <c:if test="${patientsList != null}">
-                        <form action="patientController" method="POST">
+                        <form action="patient" method="POST">
                             <table class="table">
                                 <thead class="thead-dark">
                                     <tr>
@@ -45,7 +52,7 @@
                                             <td>${patient.imc}</td>
                                             <td>${patient.classification}</td>
                                             <td scope="col">
-                                                <button class="btn btn-danger" type="submit" value="${patient.registerId}" name="friend">X</button>
+                                                <button class="btn btn-danger" type="submit" value="${patient.registerId}" name="patient">X</button>
                                                 <input type="hidden" name="action" value="patientToDelete"/>
                                             </td>
                                         </tr>

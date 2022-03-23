@@ -1,4 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- Internacionalizacion, i18n
+http://chuwiki.chuidiang.org/index.php?title=Internacionalizaci%C3%B3n_de_JSP_con_JSTL
+Els missatges estan a WEB-INF/classes
+--%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +20,10 @@
             <%@include file="userValidation.jsp" %>
         </header>
         <main class="container mw-100">
-                <h3>My Little Login</h3>
+            <fmt:setLocale value="es_ES" scope="session" />
+            <fmt:setBundle basename="Messages2" />
+                <h3><fmt:message key="title" /></h3>
+                <!-- <h3>LOGIN</h3> -->
                 <!-- 
                 <p>Benvingut al nostre portal de bioinformàtica.</p>
                 <p>On podràs trobar notícies, si estàs registrat, molt més.</p> 
@@ -36,15 +45,15 @@
                         </div>
                     </form>
                 </div>
-            <%
-               if(request.getParameter("error")!=null){
-                  //out.println("Usuario y/o contraseña incorrectas");
-
-                   String error=request.getParameter("error");
-                   if(error.equals("1")) out.println("<p class='alert alert-success'>Usuario y/o contraseña incorrectas</p>");
-               } 
-
-            %>
+                <%
+                   if(request.getParameter("error")!=null){
+                      //out.println("Usuario y/o contraseña incorrectas");
+                       String error=request.getParameter("error");
+                       
+                       if(error.equals("1")) out.println("<p class='alert alert-danger'>Usuari y/o contrassenya incorrectes.</p>");
+                       if(error.equals("2")) out.println("<p class='alert alert-danger'>Número de intents excedits.</p>");
+                   } 
+                %>
         </main>
         <footer>
             <%@include file="templates/footer.jsp" %>

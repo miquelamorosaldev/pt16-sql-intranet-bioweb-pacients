@@ -122,8 +122,8 @@ public class UserController extends HttpServlet {
         // Si l'usuari no ha excedit el límit d'intents de login.
         if(intentsLogin > MAXIM_INTENTS_LOGIN){
             String errorMessage = "Error: Number of Login Attempts Exceeded";
-            request.setAttribute("errorMessage", errorMessage);
-            response.sendRedirect("login.jsp?error=1");
+            request.setAttribute("error", errorMessage);
+            response.sendRedirect("login.jsp?error=2");
         } else {
            // Agafem les dades del formulari.
            String username=request.getParameter("username");
