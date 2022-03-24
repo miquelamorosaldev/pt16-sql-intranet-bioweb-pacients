@@ -125,6 +125,15 @@ public class PatientsController extends HttpServlet {
 //            String bloodType_form = request.getParameter("bloodType_form");
             String classification = request.getParameter("classfication_filter");
             
+            // Edat mínima i màxima
+            String edatMinForm = request.getParameter("edatMin");
+            int edatMin = edatMinForm!=null?
+                    Integer.parseInt(edatMinForm):18;
+            
+            String edatMaxForm = request.getParameter("edatMax");
+            int edatMax = edatMaxForm!=null?
+                    Integer.parseInt(edatMaxForm):150;
+            
             // 2.2 Validem les dades del formulari. Si ens retornen valor nul 
             // (en el nostre cas un valor -)
             boolean classificationSelected = !classification.equals("*");
@@ -132,7 +141,7 @@ public class PatientsController extends HttpServlet {
             
             // 3. Cridem patientsManager per a què ens retorni la llista de pacients 
             // filtrada.
-            List<Patient> patientsList = patientsManager.filterByClassification(classification);
+            List<Patient> patientsList = patientsManager.filter(classification,edatMin,edatMax);
             
             // 4. Enviem la llista resultant a la JSP 
             session.setAttribute("patientsList", patientsList);

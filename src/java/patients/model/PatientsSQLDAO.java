@@ -132,6 +132,58 @@ public class PatientsSQLDAO implements IPatientsDAO{
         return list;
     }
     
+    /**
+     * Mètode per a obtenir els pacients d'una classificació de l'estudi.Els
+ valors possibles són: NORMAL, OSTEOPOROSI, OSTEOPENIA.
+     * @param classification
+     * @param EdatMin
+     * @param EdatMax
+     * @return 
+     */
+    public List<Patient> filter(String classification, int edatMin, int edatMax) {
+        ArrayList<Patient> list = new ArrayList<>();
+        
+        try ( Connection conn = dataSource.getConnection();
+              PreparedStatement st = conn.prepareStatement(getQuery("FILTER")); )
+        {
+            st.setString(1, classification);
+            st.setInt(2, edatMin);
+            st.setInt(3, edatMax);
+            ResultSet res = st.executeQuery();
+            // DONE, 22/03/2022.
+            while (res.next()) {
+                Patient patient = new Patient();
+                // Check the parameters match with friends.jsp form.
+                //  SELECT p.idRegistre, p.edat, p.grupEdat, p.IMC, 
+                // p.classificació, p.menarquia, p.tipusMenopausia FROM Patient p;
+                patient.setRegisterId(res.getInt("idRegistre"));
+                patient.setAge(res.getInt("edat"));
+                patient.setAgeGroup(res.getString("grupEdat"));
+                patient.setImc(res.getDouble("IMC"));
+                patient.setClassification(res.getString("classificació"));
+                patient.setMenarche(res.getInt("menarquia"));
+                patient.setMenopauseType(res.getString("tipusMenopausia"));
+                list.add(patient);
+            }
+            
+        } catch (SQLException e) {
+            try {
+                throw new DBConnectionException("Error en la conexión a la base de datos.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception e) {
+            try {
+                throw new DBConnectionException("Error en el sistema.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+        
+        return list;
+    }
+    
+    
     public String getQuery(String queryName) {
         return queries.getProperty(queryName);
     }

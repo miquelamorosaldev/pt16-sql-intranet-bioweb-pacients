@@ -45,6 +45,15 @@
                                 <option value="OSTEOPOROSI">OSTEOPOROSI</option>
                             </select>
                         </div>
+                        <div class="form-group row">
+                            <label class="input-group-prepend col-sm-3" for="classfication_filter">
+                                Interval d'edad.
+                            </label>
+                            Mín: <input type="number" name="edatMin" 
+                                        min="18" max="200" step="1" value="18">
+                            Màx: <input type="number" name="edatMax" 
+                                       min="18" max="200" step="1" value="100">
+                        </div>
                         <!--
                         <div class="form-group row">
                             <label class="input-group-prepend col-sm-2" for="bloodType_form">
@@ -103,9 +112,11 @@
                             <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
                         <!-- </form>  -->
                     </c:if>
+                    <%-- 
                     <c:if test="${patientsList == null}">
                         <p class="alert alert-danger">No hay pacientes encontrados.</p>
                     </c:if>
+                    --%>
             </div>
         </main>
         <footer>

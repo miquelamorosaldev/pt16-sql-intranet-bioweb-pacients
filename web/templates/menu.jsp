@@ -12,6 +12,11 @@
     <nav class="nav nav-pills flex-column flex-sm-row">
         <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
            href='./news.jsp'>News</a>
+        <!-- I18N -->
+        <a class='flex-sm-fill text-sm-center nav-link active opt-menu' 
+           href='<%= request.getContextPath() %>?locale=es'>ES</a>
+        <a class='flex-sm-fill text-sm-center nav-link active opt-menu' 
+           href='<%= request.getContextPath() %>?locale=en'>EN</a>
         <a class='flex-sm-fill text-sm-center nav-link active opt-menu' 
            href='./login.jsp'>Login</a>
     <% } %> 

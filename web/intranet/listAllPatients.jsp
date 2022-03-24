@@ -40,7 +40,7 @@
                                         <th scope="col">AgeGroup</th>
                                         <th scope="col">IMC</th>
                                         <th scope="col">Classificació</th>
-                                        <th scope="col">Del?</th>
+                                        <th scope="col">Options</th>
                                     </tr>
                                 </thead>
                                 <tbody>

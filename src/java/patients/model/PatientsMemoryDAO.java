@@ -121,5 +121,10 @@ public class PatientsMemoryDAO implements IPatientsDAO{
     public int remove(Patient patient) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<Patient> filter(String classification, int edatMin, int edatMax) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

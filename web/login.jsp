@@ -20,7 +20,7 @@ Els missatges estan a WEB-INF/classes
             <%@include file="userValidation.jsp" %>
         </header>
         <main class="container mw-100">
-            <fmt:setLocale value="es_ES" scope="session" />
+            <fmt:setLocale value="${param.locale}" scope="session" />
             <fmt:setBundle basename="Messages2" />
                 <h3><fmt:message key="title" /></h3>
                 <!-- <h3>LOGIN</h3> -->
