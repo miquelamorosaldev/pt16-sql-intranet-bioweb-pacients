@@ -80,9 +80,20 @@ public class PatientsController extends HttpServlet {
 //                    deletePatientForm(request, response);
 //                    break;
                 
-                // TODO PENDENT.
+                // DONE.
                 case "patientToDelete":
                     deletePatient(request, response);
+                    break;
+                
+                // 11 - Select the category to edit and load the category data
+                // in a form.
+                case "patientToModify":
+                    patientToModify(request, response);
+                    break;
+                // 12 - Finally, the user press the submit button with the new data.
+                // This operation updates the category data in database.  
+                case "modifyPatient":
+                   //  modifyPatient(request, response);
                     break;
             }  
         } else{
@@ -186,6 +197,17 @@ public class PatientsController extends HttpServlet {
         dispatcher.forward(request, response);
     }
     
+    
+    private void patientToModify(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String patient = request.getParameter("patient");
+        String[] patientParams = patient.split(";");
+        Patient newPat = new Patient(
+                Integer.parseInt(patientParams[0]), patientParams[1]);
+        request.setAttribute("patientModify", newPat);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
+        dispatcher.forward(request, response);
+    }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

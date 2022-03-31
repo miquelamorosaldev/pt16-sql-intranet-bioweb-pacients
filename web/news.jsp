@@ -19,16 +19,22 @@
                 <h3>Notícies bioinformàtica.</h3>
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
+                        Un sistema de reanálisis bioinformático aplicado a estudios genéticos aumenta el porcentaje de diagnóstico de enfermedad<br/>
+                        <em>01/02/2022.</em><strong>Link:</strong><a href="https://www.infosalus.com/salud-investigacion/noticia-sistema-reanalisis-bioinformatico-aplicado-estudios-geneticos-aumenta-porcentaje-diagnostico-enfermedad-20220201114618.html">
+                            Infosalus; feb 2022
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
                         Crean una herramienta bioinformática para analizar las variantes genéticas 
                         del coronavirus<br/>
-                        <a href="https://www.eldiario.es/sociedad/crean-herramienta-bioinformatica-analizar-variantes-geneticas-coronavirus_1_8286727.html">
+                        <em>18/07/2022.</em><strong>Link:</strong><a href="https://www.eldiario.es/sociedad/crean-herramienta-bioinformatica-analizar-variantes-geneticas-coronavirus_1_8286727.html">
                             diario.es; set 2021
                         </a>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         Científicos reclaman en la revista 'Nature' integrar genética, bioinformática y 
                         salud pública para evitar pandemias<br/>
-                        <a href="https://www.infosalus.com/salud-investigacion/noticia-cientificos-reclaman-revista-nature-integrar-genetica-bioinformatica-salud-publica-evitar-pandemias-20210304154828.html">
+                        <em>22/03/2021.</em><strong>Link:</strong><a href="https://www.infosalus.com/salud-investigacion/noticia-cientificos-reclaman-revista-nature-integrar-genetica-bioinformatica-salud-publica-evitar-pandemias-20210304154828.html">
                             Revista Nature; mar 2021
                         </a>
                     </div>

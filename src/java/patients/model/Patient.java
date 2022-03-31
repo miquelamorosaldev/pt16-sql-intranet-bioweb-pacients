@@ -43,6 +43,11 @@ public class Patient {
     public Patient(int registerId) {
         this.registerId = registerId;
     }
+    
+    public Patient(int registerId, String classification) {
+        this.registerId = registerId;
+        this.classification = classification;
+    }
 
     // Full standard constructor
     public Patient(int registerId, int age, String ageGroup, int weight, int height, double imc, String classification, int menarche, boolean menopause, String menopauseType) {

@@ -52,8 +52,14 @@
                                             <td>${patient.imc}</td>
                                             <td>${patient.classification}</td>
                                             <td scope="col">
-                                                <button class="btn btn-danger" type="submit" value="${patient.registerId}" name="patient">X</button>
+                                                <!--Delete-->
+                                                <button class="btn btn-danger" type="submit" 
+                                                        value="${patient.registerId}" name="patient" 
+                                                        onclick="return confirm('Are you sure you want to Delete this Patient? ');" >X</button>
                                                 <input type="hidden" name="action" value="patientToDelete"/>
+                                                <!--Edit-->
+                                                <button class="btn btn-primary" type="submit" value="${patient.registerId}" name="patient">E</button>
+                                                <input type="hidden" name="action" value="patientToModify"/>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -63,6 +69,19 @@
                         </form> 
                     </c:if>
                     <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
+                    
+
+                    <!-- Modify Patient -->
+                    <c:if test="${patientModify != null}">
+                        <form action="patientController" method="POST">
+                            <div class="form-group">
+                                <label for="inputCat">New Patient classification</label>
+                                <input type="text" class="form-control" id="inputCat" value="${patientModify.classification}" name="classification" required>
+                            </div>
+                            <input type="hidden" value="${patientModify.registerId}" name="registerId"/>
+                            <button type="submit" class="btn btn-primary" name="actionCategory" value="patientModify">Modify</button>
+                        </form>
+                    </c:if>
             </div>
         </main>
         <footer>
