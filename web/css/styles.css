@@ -23,6 +23,9 @@ footer {
 h3, label {
     color: purple;
 }
+.whiteText {
+    color: white;
+}
 
 .login-submit {
     background-color: purple;

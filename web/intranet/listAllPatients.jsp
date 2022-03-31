@@ -65,7 +65,7 @@
                                     </c:forEach>
 
                                 </tbody>
-                            </table>
+                            </table>  .
                         </form> 
                     </c:if>
                     <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>

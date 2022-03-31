@@ -6,7 +6,7 @@
              class="d-inline-block align-middle" alt="Banner Bioinformatica">
     </a> 
     -->
-    <h3>Banner Bioinformatica</h3>
+    <h3>M015-PT16-SQL-PACIENTS</h3>
     <!-- Menú navegació visitants (que no estan registrats) -->
     <% if(session.getAttribute("user")==null) { %>
     <nav class="nav nav-pills flex-column flex-sm-row">
