@@ -16,17 +16,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jdk.nashorn.internal.ir.debug.JSONWriter;
 import patients.model.Patient;
-import patients.model.PatientsSQLDAO;
+import patients.model.PatientsMemoryDAO;
 
 /**
  *
  * @author alumne
  */
 @WebServlet(name = "PatientWS", urlPatterns = {"/PatientWS"})
-public class PatientWS extends HttpServlet {
+public class PatientWSMemory extends HttpServlet {
 
-    private PatientsSQLDAO patientDAO;
+    private PatientsMemoryDAO patientDAO;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,10 +46,8 @@ public class PatientWS extends HttpServlet {
             Gson gson = new Gson();
             // calcula la ruta absoluta para llegar a WEB-INF, si tenemos un fichero.
             // Cuando hacemos Clean & Build, se genera otra estructura de directorios: LoginApplication/build/web/WEB-INF/
-            String path = getServletContext().getRealPath("/WEB-INF");
-            
-            patientDAO = new PatientsSQLDAO(path);
-            
+            // path = getServletContext().getRealPath("/WEB-INF");
+            patientDAO = new PatientsMemoryDAO();
             List<Patient> patients = new ArrayList<>();
             String action=request.getParameter("action");
             switch(action){
@@ -56,14 +55,10 @@ public class PatientWS extends HttpServlet {
                     // Llegim els pacients de la base de dades
                     patients = patientDAO.listAllPatients();
                     break;
-                case "ListNormalPatients": 
+                case "ListWomen": 
                     // Llegim els pacients de la base de dades
-                    patients = patientDAO.filterByClassification("NORMAL");
+                    patients = patientDAO.listWomanPatients();
                     break; 
-//                case "ListNormalPatients": 
-//                    // Llegim els pacients de la base de dades
-//                    patients = patientDAO.filterByClassification("NORMAL");
-//                    break; 
             }  
             // Posem la llista de pacients en un fitxer JSON.
             String patientsJsonString = gson.toJson(patients);
