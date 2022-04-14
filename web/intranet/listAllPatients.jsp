@@ -22,6 +22,7 @@
         <main>
             <div class="container mw-100"> 
                 <h3>List Patients</h3>
+                
                     <%-- requestScope, Per a llegir  request.getAttribute dels servlets --%>
                     <c:if test="${requestScope.sucess != null}">
                         <p class='alert alert-success'>${requestScope.sucess}</p>
@@ -54,31 +55,29 @@
                                             <td scope="col">
                                                 <!--Delete-->
                                                 <button class="btn btn-danger" type="submit" 
-                                                        value="${patient.registerId}" name="patient" 
-                                                        onclick="return confirm('Are you sure you want to Delete this Patient? ');" >X</button>
-                                                <input type="hidden" name="action" value="patientToDelete"/>
+                                                        value="${patient.registerId}" id="patientDelete" name="patientDelete" 
+                                                        onclick="return confirm('Are you sure you want to Delete this Patient? ');" >Supr</button>
+                                                <input type="hidden" name="action" value="patientOptions"/>
                                                 <!--Edit-->
-                                                <button class="btn btn-primary" type="submit" value="${patient.registerId}" name="patient">E</button>
-                                                <input type="hidden" name="action" value="patientToModify"/>
+                                                <button class="btn btn-primary" type="submit" value="${patient.registerId}" 
+                                                        name="patientEdit" id="patientEdit">Edit</button>
                                             </td>
                                         </tr>
                                     </c:forEach>
 
                                 </tbody>
-                            </table>  .
+                            </table>
                         </form> 
+                        <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
                     </c:if>
-                    <p class="alert alert-success">${patientsList.size()} pacientes encontrados.</p>
-                    
-
                     <!-- Modify Patient -->
                     <c:if test="${patientModify != null}">
                         <form action="patientController" method="POST">
                             <div class="form-group">
-                                <label for="inputCat">New Patient classification</label>
-                                <input type="text" class="form-control" id="inputCat" value="${patientModify.classification}" name="classification" required>
+                                <label for="inputCat">ID</label>
+                                <input type="text" class="form-control" readonly="true" id="inputRegisterId" value="${patientModify.registerId}" name="classification" required>
                             </div>
-                            <input type="hidden" value="${patientModify.registerId}" name="registerId"/>
+                                <input type="hidden" value="${patientModify.registerId}" name="registerId" />
                             <button type="submit" class="btn btn-primary" name="actionCategory" value="patientModify">Modify</button>
                         </form>
                     </c:if>

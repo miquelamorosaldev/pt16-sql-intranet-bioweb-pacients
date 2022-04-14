@@ -12,14 +12,14 @@ Els missatges estan a WEB-INF/classes
         <title>M015-PT16-PACIENTS-BASEDADES-SQL</title>
         <link rel="stylesheet" href="vendors/bootstrap-4.1.3-dist/css/bootstrap.min.css">
         <script src="vendors/jquery/jquery-3.3.1.min.js"></script>
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="./css/styles.css">
     </head>
     <body>
         <header>
             <%@include file="templates/menu.jsp" %>
             <%@include file="userValidation.jsp" %>
         </header>
-        <main class="container mw-80">
+        <main class="container-fluid h-100">
             <fmt:setLocale value="${param.locale}" scope="session" />
             <fmt:setBundle basename="Messages2" />
                 <!-- <h3>LOGIN</h3> -->
@@ -27,21 +27,24 @@ Els missatges estan a WEB-INF/classes
                 <p>Benvingut al nostre portal de bioinformàtica.</p>
                 <p>On podràs trobar notícies, si estàs registrat, molt més.</p> 
                 -->
-                <!-- RWD Form -->
-                <div class="text-center">
+                <!-- 
+                RWD Form: 
+                https://www.codeply.com/go/OWsGW3mxS2/bootstrap-4-full_screen-center-form
+                -->
+                <div class="row text-center justify-content-center align-items-center h-100">
                     <form method="post" class="form-signin" action="user">
-                         <h3><fmt:message key="title" /></h3>
+                        <h3><fmt:message key="title" /></h3>
                         <img class="mb-4" src="./img/icon-bone.png" alt="icona d'un os trencant-se, oestoporosi" width="72" height="72">
-                        <div class=col-xs-8">
+                        <div class="form-group">
                             <label for="username">Username:</label> 
-                            <input type="text" name="username" class="form-control"/>
+                            <input type="text" name="username" class="form-control form-control-lg"/>
                         </div>
-                        <div class="col-xs-8">
+                        <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" name="password" class="form-control" />
+                            <input type="password" name="password" class="form-control form-control-lg" />
                         </div>    
-                        <div class="col-sm-12 m-2">
-                            <button class="login-submit" 
+                        <div class="form-group">
+                            <button class="login-submit btn-lg" 
                                  accesskey="" type="submit" name="action" value="Validate">Log In</button>     
                         </div>
                     </form>

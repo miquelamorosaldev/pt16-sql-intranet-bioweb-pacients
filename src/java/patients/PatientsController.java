@@ -66,6 +66,14 @@ public class PatientsController extends HttpServlet {
         
         if(request.getParameter("action")!=null){
             String action=request.getParameter("action");
+            // Si el action es patientOptions vol dir que hem pitjat un dels següents botons des de patientList:
+            // El d'editar o el d'esborar.
+            String idPatientEditForm = "";
+            String idPatientDeleteForm = "";
+            if(action.equals("patientOptions")) {
+                 idPatientEditForm=request.getParameter("patientEdit");
+                 idPatientDeleteForm=request.getParameter("patientDelete");
+            }
             switch(action){
                 case "ListAll":
                     listAll(request,response);
@@ -81,15 +89,15 @@ public class PatientsController extends HttpServlet {
 //                    break;
                 
                 // DONE.
-                case "patientToDelete":
-                    deletePatient(request, response);
+                case "patientOptions":
+                    if(idPatientDeleteForm!=null)
+                        // Selected the Patient to delete.
+                        deletePatient(request, response);
+                        // Selected the Patient to edit and load the Patient data in a form.
+                    if(idPatientEditForm!=null)
+                        patientToModify(request, response);
                     break;
                 
-                // 11 - Select the category to edit and load the category data
-                // in a form.
-                case "patientToModify":
-                    patientToModify(request, response);
-                    break;
                 // 12 - Finally, the user press the submit button with the new data.
                 // This operation updates the category data in database.  
                 case "modifyPatient":
@@ -167,7 +175,7 @@ public class PatientsController extends HttpServlet {
     private void deletePatient(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        System.out.println("aaaaa");
-        String patientIdForm = request.getParameter("patient");
+        String patientIdForm = request.getParameter("patientDelete");
         int patientId = Integer.parseInt(patientIdForm);
             
 //        String[] friendParams = friend.split(";");
@@ -200,10 +208,9 @@ public class PatientsController extends HttpServlet {
     
     private void patientToModify(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String patient = request.getParameter("patient");
-        String[] patientParams = patient.split(";");
+        String patientId = request.getParameter("patientEdit");
         Patient newPat = new Patient(
-                Integer.parseInt(patientParams[0]), patientParams[1]);
+                Integer.parseInt(patientId));
         request.setAttribute("patientModify", newPat);
         RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
         dispatcher.forward(request, response);
