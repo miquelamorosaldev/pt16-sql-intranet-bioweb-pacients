@@ -1,5 +1,10 @@
 package patients.model;
 
+import static java.lang.System.out;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Models a Patient register.
  *
@@ -12,6 +17,7 @@ public class Patient {
 
     private int age;
     private String ageGroup; // accepted intervals: fins a 45, 45-49, 50-54, 55-59, 60-64, 65-69, més de 69
+    private Map<String,String> classificationValues; // accepted terms: *, normal, osteopenia, osteoporosi
     private int weight; // kg
     private int height; // cm
     private double imc; // imc = kg / m**2
@@ -38,15 +44,18 @@ public class Patient {
     
     // Empty constructor
     public Patient() {
+        this.setClassificationValues();
     }
     
     public Patient(int registerId) {
         this.registerId = registerId;
+        this.setClassificationValues();
     }
     
     public Patient(int registerId, String classification) {
         this.registerId = registerId;
         this.classification = classification;
+        this.setClassificationValues();
     }
 
     // Full standard constructor
@@ -61,6 +70,7 @@ public class Patient {
         this.menarche = menarche;
         this.menopause = menopause;
         this.menopauseType = menopauseType;
+        this.setClassificationValues();
     }
 
     // Constructor without ageGroup and imc parameters
@@ -75,6 +85,7 @@ public class Patient {
         this.menarche = menarche;
         this.menopause = menopause;
         this.menopauseType = menopauseType;
+        this.setClassificationValues();
     }
 
     public Patient(String name, String surnames, String gender, String bloodType, char RH, int weight, int height) {
@@ -85,6 +96,7 @@ public class Patient {
         this.RH = RH;
         this.weight = weight;
         this.height = height;
+        this.setClassificationValues();
     }
 
     public String getMenopauseType() {
@@ -139,6 +151,27 @@ public class Patient {
             ageGroup = ">69";
         }
         this.ageGroup = ageGroup;
+    }
+    
+    public void setClassificationValues() {
+            Map<String,String> classificationValues = new LinkedHashMap<String,String>();
+                classificationValues.put("*","---");
+                classificationValues.put("NORMAL","NORMAL");
+                classificationValues.put("OSTEOPENIA","OSTEOPENIA");
+                classificationValues.put("OSTEOPOROSI","OSTEOPOROSI");
+            this.classificationValues = classificationValues;
+    }
+    
+    public Map<String,String> getClassificationValues() {
+       if(this.classificationValues==null) {
+            Map<String,String> classificationValues = new LinkedHashMap<String,String>();
+                classificationValues.put("*","---");
+                classificationValues.put("NORMAL","NORMAL");
+                classificationValues.put("OSTEOPENIA","OSTEOPENIA");
+                classificationValues.put("OSTEOPOROSI","OSTEOPOROSI");
+            this.classificationValues = classificationValues;
+       }
+       return this.classificationValues;
     }
 
     public int getWeight() {

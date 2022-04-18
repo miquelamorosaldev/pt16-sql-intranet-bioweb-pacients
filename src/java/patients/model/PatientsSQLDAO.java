@@ -133,6 +133,51 @@ public class PatientsSQLDAO implements IPatientsDAO{
     }
     
     /**
+     * Mètode per a obtenir les dades d'un pel seu id.
+     * @param registerId Id del pacient.
+     * @return Patient Dades del pacient
+     */
+    public Patient findOne(int registerId) {
+        Patient patient = new Patient();
+        
+        try ( Connection conn = dataSource.getConnection();
+              PreparedStatement st = conn.prepareStatement(getQuery("FIND_ONE")); )
+        {
+            st.setInt(1, registerId);
+            ResultSet res = st.executeQuery();
+            // DONE, 22/03/2022.
+            while (res.next()) {
+                // Check the parameters match with friends.jsp form.
+                //  SELECT p.idRegistre, p.edat, p.grupEdat, p.IMC, 
+                // p.classificació, p.menarquia, p.tipusMenopausia FROM Patient p;
+                patient.setRegisterId(res.getInt("idRegistre"));
+                patient.setAge(res.getInt("edat"));
+                patient.setAgeGroup(res.getString("grupEdat"));
+                patient.setImc(res.getDouble("IMC"));
+                patient.setClassification(res.getString("classificació"));
+                patient.setMenarche(res.getInt("menarquia"));
+                patient.setMenopauseType(res.getString("tipusMenopausia"));
+            }
+            
+        } catch (SQLException e) {
+            try {
+                throw new DBConnectionException("Error en la conexión a la base de datos.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception e) {
+            try {
+                throw new DBConnectionException("Error en el sistema.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+        
+        return patient;
+    }
+    
+    
+    /**
      * Mètode per a obtenir els pacients d'una classificació de l'estudi.Els
  valors possibles són: NORMAL, OSTEOPOROSI, OSTEOPENIA.
      * @param classification
@@ -182,7 +227,6 @@ public class PatientsSQLDAO implements IPatientsDAO{
         
         return list;
     }
-    
     
     public String getQuery(String queryName) {
         return queries.getProperty(queryName);

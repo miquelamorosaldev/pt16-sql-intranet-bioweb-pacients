@@ -30,13 +30,13 @@
                 <!-- RWD Form -->
                 <div class="form-row">
                     <form method="post" action="adn.jsp">
-                        <div class="form-group col-md-6">
+                        <div class="form-group">
                             
                             <label for='ADN_field'>ADN (sense punts, ni separadors) <strong>Exemple:</strong> AGCTAGC</label>
-                            <textarea id='ADN_field' name="ADN_field" rows="15" cols="50" 
+                            <textarea class="form-control" id='ADN_field' name="ADN_field" rows="10"
                                 placeholder='Exemple: AGCTAGC'><%=ADN_field %></textarea>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group">
                             <input type="submit" name="ok" value="Calcular"/>
                         </div>
                     </form> 

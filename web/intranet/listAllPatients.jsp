@@ -12,6 +12,13 @@
         <link rel="stylesheet" href="<%= request.getContextPath() %>/vendors/bootstrap-4.1.3-dist/css/bootstrap.min.css">
         <script src="<%= request.getContextPath() %>/vendors/jquery/jquery-3.3.1.min.js"></script>
         <link rel="stylesheet" href="<%= request.getContextPath() %>/css/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+        <script type="text/javascript">
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        </script>
     </head>
     <body>
         <header>
@@ -56,11 +63,15 @@
                                                 <!--Delete-->
                                                 <button class="btn btn-danger" type="submit" 
                                                         value="${patient.registerId}" id="patientDelete" name="patientDelete" 
-                                                        onclick="return confirm('Are you sure you want to Delete this Patient? ');" >Supr</button>
+                                                        onclick="return confirm('Are you sure you want to Delete this Patient? ');" >
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                                 <input type="hidden" name="action" value="patientOptions"/>
                                                 <!--Edit-->
                                                 <button class="btn btn-primary" type="submit" value="${patient.registerId}" 
-                                                        name="patientEdit" id="patientEdit">Edit</button>
+                                                        name="patientEdit" id="patientEdit">
+                                                     <i class="fa fa-pencil" rel="tooltip"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -73,12 +84,50 @@
                     <!-- Modify Patient -->
                     <c:if test="${patientModify != null}">
                         <form action="patientController" method="POST">
-                            <div class="form-group">
-                                <label for="inputCat">ID</label>
-                                <input type="text" class="form-control" readonly="true" id="inputRegisterId" value="${patientModify.registerId}" name="classification" required>
+                            <div class="row justify-content-center">
+                                <div class="form-group col">
+                                    <label for="inputRegisterId">ID</label>
+                                    <input type="text" class="form-control" readonly="true" id="inputRegisterId" 
+                                           value="${patientModify.registerId}" name="inputRegisterId" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputAge">Edat</label>
+                                    <input type="text" class="form-control" id="inputAge" 
+                                           value="${patientModify.age}" name="inputAge" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputAge">Menarquia</label>
+                                    <i id="info-menarquia"  class="fa fa-info-circle" rel="tooltip" 
+                                       title="La menarquia és l'edat en la que la pacient va tenir la primera menstruació." ></i>
+                                    <input type="text" class="form-control" id="inputMenarche" 
+                                           value="${patientModify.menarche}" name="menarche" required>
+                                </div>
                             </div>
-                                <input type="hidden" value="${patientModify.registerId}" name="registerId" />
-                            <button type="submit" class="btn btn-primary" name="actionCategory" value="patientModify">Modify</button>
+                            <div class="row justify-content-center">
+                                <div class="form-group col">
+                                    <label for="inputClassification">
+                                        Classficació resultats estudi.
+                                    </label>
+                                    <!-- https://metamug.com/article/jsp/jsp-select-option-list-index.html -->
+                                    <select class="form-control" name="classificationValues"> 
+                                         <c:forEach var="item" items="${patientModify.classificationValues}" >
+                                            <option value='${item.key}'
+                                                ${item.value == patientModify.classification ? 'selected="selected"' : ' ' }>
+                                                ${item.value}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                   <label for="inputIMC">IMC</label>
+                                   <a class="small" href="https://medlineplus.gov/spanish/ency/article/007196.htm" target="_blank">Què és l'IMC?</a>
+                                    <input type="text" class="form-control" id="imc" 
+                                           value="${patientModify.imc}" name="imc" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" 
+                                    name="action" value="patientModify" id="patientModify">Modify</button>
+                            <button type="submit" class="btn btn-danger" name="action" value="listAll" id="patientModifyCancel">Cancel</button>
                         </form>
                     </c:if>
             </div>

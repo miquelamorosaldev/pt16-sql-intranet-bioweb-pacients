@@ -14,6 +14,7 @@ import java.util.List;
 public interface IPatientsDAO {
     
     List<Patient> listAllPatients();
+    Patient findOne(int registerId);
     boolean addPatient(Patient patient);
     List<Patient> listWomanPatients();
     List<Patient> listPatientsByRH(String rh);

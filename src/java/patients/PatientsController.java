@@ -208,10 +208,17 @@ public class PatientsController extends HttpServlet {
     
     private void patientToModify(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String patientId = request.getParameter("patientEdit");
-        Patient newPat = new Patient(
-                Integer.parseInt(patientId));
-        request.setAttribute("patientModify", newPat);
+        // Llegim l'id del pacient seleccionat.
+        String patientIdForm = request.getParameter("patientEdit");
+        int patientId = Integer.parseInt(patientIdForm);
+//        Patient patientModify = new Patient(
+//                Integer.parseInt(patientIdForm));
+        
+        // Fem select per a consultar totes les dades del pacient.
+        Patient patientModify = patientsManager.findOne(patientId);
+        patientModify.getClassificationValues();
+        request.setAttribute("patientModify", patientModify);
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
         dispatcher.forward(request, response);
     }
