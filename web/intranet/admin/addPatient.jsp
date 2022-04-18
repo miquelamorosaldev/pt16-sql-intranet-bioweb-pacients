@@ -22,82 +22,53 @@
                 <!-- RWD Form -->
                 <!-- https://getbootstrap.com/docs/4.1/components/forms/ -->
                 <form method="post" action="page3-addPatient.jsp">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for='name'>Nombre (*)  </label>
-                            <input class="form-control" type="text" required id='name' name="name" 
-                                placeholder='Nom'></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for='name'>Apellidos (*) </label>
-                            <input class="form-control" type="text" required id='surname' name="surname"
-                                placeholder='Cognom'></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for='altura'>Altura, en cms. (*) </label>
-                            <input class="form-control" type="number" required id='height' name="height" 
-                                placeholder='175'></input>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for='age'>Genero (*) </label>
-                            <select class="form-control" id="genero" name="genero">
-                                <option value="gen-wom">Mujer</option>
-                                <option value="gen-man">Hombre</option>
-                                <option value="gen-oth">Otros</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <input class="btn btn-primary" type="submit" name="ok" value="Insertar"/>
-                            <input class="btn btn-danger" type="reset" name="reset" value="Borrar"/>
-                        </div>
-                    </div>
+                        <form action="patientController" method="POST">
+                            <div class="row justify-content-center">
+                                <div class="form-group col">
+                                    <label for="inputRegisterId">ID</label>
+                                    <input type="text" class="form-control" readonly="true" id="inputRegisterId" 
+                                           value="${patientAdd.registerId}" name="inputRegisterId" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputAge">Edat</label>
+                                    <input type="number" class="form-control" id="inputAge" max="150" min="10"
+                                           value="${patientAdd.age}" name="inputAge" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="inputAge">Menarquia</label>
+                                    <i id="info-menarquia"  class="fa fa-info-circle" rel="tooltip" 
+                                       title="La menarquia és l'edat en la que la pacient va tenir la primera menstruació." ></i>
+                                    <input type="number" class="form-control" id="inputMenarche" min="5" max="20" 
+                                           value="${patientAdd.menarche}" name="menarche" required>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col">
+                                    <label for="inputClassification">
+                                        Classficació resultats estudi.
+                                    </label>
+                                    <!-- https://metamug.com/article/jsp/jsp-select-option-list-index.html -->
+                                    <select class="form-control" name="classificationValues"> 
+                                         <c:forEach var="item" items="${patientAdd.classificationValues}" >
+                                            <option value='${item.key}'
+                                                ${item.value == patientAdd.classification ? 'selected="selected"' : ' ' }>
+                                                ${item.value}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                   <label for="inputIMC">IMC</label>
+                                   <a class="small" href="https://medlineplus.gov/spanish/ency/article/007196.htm" target="_blank">Què és l'IMC?</a>
+                                    <input type="text" class="form-control" id="imc" 
+                                           value="${patientAdd.imc}" name="imc" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" 
+                                    name="action" value="patientAdd" id="patientAdd">Afegir</button>
+                        </form>
                 </form> 
             </div>
-            <%
-                // Si ha clicat o no al botó del formulari
-                boolean resultOK = false;
-                String name = "";
-                String surname = "";
-                String heightField = ""; int height = 0;
-                String gender = "";
-                Validation validator = new Validation(); 
-                if(request.getParameter("ok")!=null) {
-                    // Obtenció dels camps del form.
-                    name = request.getParameter("name");
-                    surname = request.getParameter("surname");
-                    heightField = request.getParameter("height");
-                    gender = request.getParameter("genero");
-                    // Validem els camps de text.
-                    resultOK = name != null && surname !=null;
-                    
-                    height = validator.validInteger(heightField);
-                    
-                    resultOK = resultOK && height > 40;
-                    // Not age field in this form.
-                    // resultOK = resultOK && age > 1;
-                    
-                    // Si tots els camps són correctes.
-                    if(resultOK) {
-                        // debug
-                        out.println("<p class='bg-success'> Bon dia " + gender 
-                                + " " + name + 
-                                " " + surname + "</p>" );
-                        
-                        /* 
-                            Procedim a enviar les dades a la base de dades, i guardarles.
-                            PatientsMemoryDAO
-                        */
-                        // String name, String surnames, String gender, String bloodType, char RH, int weight, int height
-                        Patient patient = new Patient(name,surname,gender,"A",'+',70,height);
-                        IPatientsDAO daoPatients = new PatientsMemoryDAO();
-                        boolean insertIsOK = daoPatients.addPatient(patient);
-                    // Si no ho son mostrem missatge d'error.
-                    } else {
-                        out.println("<p class='error'>"
-                                + "Els camps requerits no tenen el format correcte.</p>");
-                    }
-                } 
-           %>
         </main>
         <footer>
             <%@include file="../../templates/footer.jsp" %>

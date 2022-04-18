@@ -36,6 +36,11 @@ public class PatientsController extends HttpServlet {
      * Llama a la clase Manager de los pacientes de la app.
      */
     IPatientsDAO patientsManager;
+    
+    /**
+    * Pàgina JSP on gestionem la llista de pacients.
+    */
+    private static final String PAGINA_PACIENTS = "./intranet/listAllPatients.jsp";
    
     @Override
     public void init(ServletConfig config) throws ServletException{
@@ -99,10 +104,10 @@ public class PatientsController extends HttpServlet {
                     break;
                 
                 // 12 - Finally, the user press the submit button with the new data.
-                // This operation updates the category data in database.  
-                case "modifyPatient":
-                   //  modifyPatient(request, response);
-                    break;
+                // This operation updates the Patient data in database.  
+                case "patientUpdate":
+                   updatePatient(request, response);
+                   break;
             }  
         } else{
             response.sendRedirect("login.jsp");
@@ -126,7 +131,7 @@ public class PatientsController extends HttpServlet {
 
             // 3. Enviem la llista resultant a la JSP 
             request.setAttribute("patientsList", resultList);
-            RequestDispatcher rd = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher(PAGINA_PACIENTS);
             rd.forward(request, response);
         }
     }
@@ -198,10 +203,10 @@ public class PatientsController extends HttpServlet {
                     request.setAttribute("error", "Patient not deleted due to an Error, contact administrator.");
                     break;
                 default:
-                    response.sendRedirect("./intranet/listAllPatients.jsp");
+                    response.sendRedirect(PAGINA_PACIENTS);
             }
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_PACIENTS);
         dispatcher.forward(request, response);
     }
     
@@ -219,9 +224,72 @@ public class PatientsController extends HttpServlet {
         patientModify.getClassificationValues();
         request.setAttribute("patientModify", patientModify);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("./intranet/listAllPatients.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_PACIENTS);
         dispatcher.forward(request, response);
     }
+   
+    private void updatePatient(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Patient newPatientData = null;
+        
+        // inputRegisterId, inputIMC, inputClassification, inputMenarche, inputAge
+        // Pas 1. Recollir dades del form.
+        // També validarem si han estat inserides o no.
+        boolean validFields = true;
+        int edat = 0, menarquia = 0, registerId = 0;
+        
+        if (request.getParameter("inputRegisterId") != null) {
+            String inputRegisterId = request.getParameter("inputRegisterId");
+            registerId = Integer.parseInt(inputRegisterId);
+        }
+        // Agafem el id de la categoria des d'un camp select.
+        String inputClassification = request.getParameter("inputClassification");
+        validFields = inputClassification!=null;
+        
+        // Camps numèrics enters.
+        String inputAge = request.getParameter("inputAge");
+        if(inputAge!=null)
+            edat = Integer.parseInt(inputAge);
+            
+        String inputMenarche = request.getParameter("inputMenarche");
+        menarquia = Integer.parseInt(inputMenarche);
+            
+        // Camp numèric decimal.
+        // String inputIMC = request.getParameter("inputIMC");
+            
+        // Pendent d'implementar el camp.
+        boolean hasMenopause = edat>50?false:true;
+
+        // Pas 2. Validem les dades del form si han estat totes inserides. 
+        // Si no son correctes, informem a l'usuari.
+       if(validFields = true) {
+            validFields = validFields && registerId > 1;
+            validFields = validFields && menarquia > 5 && menarquia < 25;
+            validFields = validFields && edat > 15 && edat < 150;
+       }
+ 
+        // Pas 3. Crear el objecte Pacient amb les dades vàlides.
+        // int idFriend, String phone, String name, int age, int categoryId
+            
+        newPatientData = 
+           new Patient(registerId, edat, 75, 170, inputClassification, menarquia, hasMenopause , "NORMAL");
+            
+        // Pas 4. TODO Realitzar update a la BBDD.
+        int rowsAffected = patientsManager.update(newPatientData);
+        
+        // Pas 5. Informar a l'usuari com ha anat l'udpate.
+        if (rowsAffected > 0) {
+            request.setAttribute("success", "Patient with id " 
+                    + newPatientData.getRegisterId() + " Successfully modified :) !");
+        } else {
+            request.setAttribute("error", "Patient not updated :( !");
+        }
+          
+        // Pas 6. Tornar a la jsp.
+        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_PACIENTS);
+        dispatcher.forward(request, response);
+    }
+    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

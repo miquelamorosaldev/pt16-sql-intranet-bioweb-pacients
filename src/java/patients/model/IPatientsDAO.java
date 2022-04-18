@@ -23,4 +23,6 @@ public interface IPatientsDAO {
     public int remove(Patient patient);
 
     public List<Patient> filter(String classification, int edatMin, int edatMax);
+
+    public int update(Patient newPatientData);
 }

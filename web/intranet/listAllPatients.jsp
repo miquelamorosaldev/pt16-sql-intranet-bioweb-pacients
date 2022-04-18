@@ -31,8 +31,8 @@
                 <h3>List Patients</h3>
                 
                     <%-- requestScope, Per a llegir  request.getAttribute dels servlets --%>
-                    <c:if test="${requestScope.sucess != null}">
-                        <p class='alert alert-success'>${requestScope.sucess}</p>
+                    <c:if test="${requestScope.success != null}">
+                        <p class='alert alert-success'>${requestScope.success}</p>
                     </c:if>
                     <c:if test="${requestScope.error != null}">
                         <p class='alert alert-warning'>${requestScope.error}</p>
@@ -83,7 +83,7 @@
                     </c:if>
                     <!-- Modify Patient -->
                     <c:if test="${patientModify != null}">
-                        <form action="patientController" method="POST">
+                        <form action="patient" method="POST">
                             <div class="row justify-content-center">
                                 <div class="form-group col">
                                     <label for="inputRegisterId">ID</label>
@@ -92,15 +92,15 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="inputAge">Edat</label>
-                                    <input type="text" class="form-control" id="inputAge" 
+                                    <input type="text" class="form-control" id="inputAge" min="15" max="150" 
                                            value="${patientModify.age}" name="inputAge" required>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="inputAge">Menarquia</label>
+                                    <label for="inputMenarche">Menarquia</label>
                                     <i id="info-menarquia"  class="fa fa-info-circle" rel="tooltip" 
                                        title="La menarquia és l'edat en la que la pacient va tenir la primera menstruació." ></i>
-                                    <input type="text" class="form-control" id="inputMenarche" 
-                                           value="${patientModify.menarche}" name="menarche" required>
+                                    <input type="text" class="form-control" id="inputMenarche" min="5" max="20" 
+                                           value="${patientModify.menarche}" name="inputMenarche" required>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
@@ -109,7 +109,7 @@
                                         Classficació resultats estudi.
                                     </label>
                                     <!-- https://metamug.com/article/jsp/jsp-select-option-list-index.html -->
-                                    <select class="form-control" name="classificationValues"> 
+                                    <select class="form-control" name="inputClassification"> 
                                          <c:forEach var="item" items="${patientModify.classificationValues}" >
                                             <option value='${item.key}'
                                                 ${item.value == patientModify.classification ? 'selected="selected"' : ' ' }>
@@ -121,12 +121,12 @@
                                 <div class="form-group col">
                                    <label for="inputIMC">IMC</label>
                                    <a class="small" href="https://medlineplus.gov/spanish/ency/article/007196.htm" target="_blank">Què és l'IMC?</a>
-                                    <input type="text" class="form-control" id="imc" 
-                                           value="${patientModify.imc}" name="imc" required>
+                                    <input type="text" class="form-control" id="inputIMC" 
+                                           value="${patientModify.imc}" name="inputIMC" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary" 
-                                    name="action" value="patientModify" id="patientModify">Modify</button>
+                                    name="action" value="patientUpdate" id="patientUpdate">Modify</button>
                             <button type="submit" class="btn btn-danger" name="action" value="listAll" id="patientModifyCancel">Cancel</button>
                         </form>
                     </c:if>

@@ -242,9 +242,40 @@ public class PatientsSQLDAO implements IPatientsDAO{
             pst.setInt(1, patient.getRegisterId());
             rowsAffected = pst.executeUpdate();
         } catch (SQLException e) {
-            rowsAffected = -2;
-        }
+            try {
+                rowsAffected = -2;
+                throw new DBConnectionException("Error a l'esborrar el pacient a la base de dades.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
 
+        return rowsAffected;
+    }
+    
+    
+    
+    public int update(Patient patient) {
+        int rowsAffected = 0;
+        try ( Connection conn = dataSource.getConnection();
+              PreparedStatement pst = conn.prepareStatement(getQuery("UPDATE")); )
+        {
+            // Fill the ? in the query: 
+            // UPDATE = UPDATE Patient p SET p.edat=?, p.IMC=?, p.classificació=?, p.menarquia=? WHERE p.idRegistre=?
+            pst.setInt(1, patient.getAge());
+            pst.setDouble(2, patient.getImc());
+            pst.setString(3, patient.getClassification());
+            pst.setInt(4, patient.getMenarche());
+            pst.setInt(5, patient.getRegisterId());
+            rowsAffected = pst.executeUpdate();
+        } catch (SQLException e) {
+            try {
+                rowsAffected = 0;
+                throw new DBConnectionException("Error a l'actualitzar el pacient a la base de dades.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
         return rowsAffected;
     }
 

@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -69,7 +70,31 @@ public class UserDAOSQL implements IUserDAO {
             }
         } 
         return loggedUser;
-    }    
+    }
+    
+    
+    public ArrayList<User> listAllUsers() {
+        ArrayList<User> list = new ArrayList<>();
+        try ( Connection conn = dataSource.getConnection();
+              Statement st = conn.createStatement(); )
+        {    
+            ResultSet res = st.executeQuery(getQuery("FIND_ALL"));
+
+            while (res.next()) {
+                User user = new User();
+                user.setUsername(res.getString("username"));
+                user.setPassword(res.getString("password"));
+                user.setRole(
+                        Role.valueOf(res.getString("role")));
+                list.add(user);
+            }
+
+        } catch (SQLException e) {
+            list = new ArrayList<>();
+        }
+        
+        return list;
+    }
     
     public String getQuery(String queryName) {
         return queries.getProperty(queryName);
@@ -77,11 +102,6 @@ public class UserDAOSQL implements IUserDAO {
 
     @Override
     public boolean logout(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<User> listAllUsers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
