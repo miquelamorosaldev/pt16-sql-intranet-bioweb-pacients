@@ -40,8 +40,9 @@ public class PatientsController extends HttpServlet {
     /**
     * Pàgina JSP on gestionem la llista de pacients.
     */
-    private static final String PAGINA_PACIENTS = "./intranet/listAllPatients.jsp";
-   
+    private static final String PAGINA_LLISTA_PACIENTS = "./intranet/listAllPatients.jsp";
+    private static final String PAGINA_ALTA_PACIENT 
+            = "./intranet/admin/addPatient.jsp";
     @Override
     public void init(ServletConfig config) throws ServletException{
         super.init(config);
@@ -92,8 +93,13 @@ public class PatientsController extends HttpServlet {
 //                    //response.sendRedirect("friend.jsp?showFormDelete=1");
 //                    deletePatientForm(request, response);
 //                    break;
+                case "AddPatientForm":
+                    addPatientForm(request,response);
+                break;
+                case "AddPatient":
+                    addPatient(request,response);
+                break;
                 
-                // DONE.
                 case "patientOptions":
                     if(idPatientDeleteForm!=null)
                         // Selected the Patient to delete.
@@ -131,7 +137,7 @@ public class PatientsController extends HttpServlet {
 
             // 3. Enviem la llista resultant a la JSP 
             request.setAttribute("patientsList", resultList);
-            RequestDispatcher rd = request.getRequestDispatcher(PAGINA_PACIENTS);
+            RequestDispatcher rd = request.getRequestDispatcher(PAGINA_LLISTA_PACIENTS);
             rd.forward(request, response);
         }
     }
@@ -175,8 +181,6 @@ public class PatientsController extends HttpServlet {
         }
     }
 
-  
-
     private void deletePatient(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        System.out.println("aaaaa");
@@ -203,13 +207,56 @@ public class PatientsController extends HttpServlet {
                     request.setAttribute("error", "Patient not deleted due to an Error, contact administrator.");
                     break;
                 default:
-                    response.sendRedirect(PAGINA_PACIENTS);
+                    response.sendRedirect(PAGINA_LLISTA_PACIENTS);
             }
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_PACIENTS);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_LLISTA_PACIENTS);
         dispatcher.forward(request, response);
     }
     
+    
+    private void addPatientForm(HttpServletRequest request, 
+            HttpServletResponse response)
+           throws ServletException, IOException {
+
+        // 1. Verifiquem la validesa de la sessió de l'usuari. 
+        HttpSession session=request.getSession();
+        if(session.getAttribute("user")==null) { 
+            if(session.getAttribute("admin")==null){
+                response.sendRedirect("login.jsp");
+            }
+        } else {
+
+            // 2. Enviem un pacient buit a la JSP per a qu'e l'usuari l'ompli.
+            Patient patientAdd = new Patient();
+            patientAdd.getClassificationValues();
+            request.setAttribute("patientAdd", patientAdd);
+            RequestDispatcher rd = request.getRequestDispatcher(PAGINA_ALTA_PACIENT);
+            rd.forward(request, response);
+        }
+    }
+
+    private void addPatient(HttpServletRequest request, 
+            HttpServletResponse response)
+           throws ServletException, IOException {
+
+        // 1. Verifiquem la validesa de la sessió de l'usuari. 
+        HttpSession session=request.getSession();
+        if(session.getAttribute("user")==null) { 
+            if(session.getAttribute("admin")==null){
+                response.sendRedirect("login.jsp");
+            }
+        } else {
+            // 2. Verifiquem la validesa de les dades introduïdes.
+            
+            // 2. Enviem un pacient buit a la JSP per a qu'e l'usuari l'ompli.
+            Patient patientAdd = new Patient();
+            patientAdd.getClassificationValues();
+//            request.etAttribute("patientAdd", patientAdd);
+            RequestDispatcher rd = request.getRequestDispatcher(PAGINA_ALTA_PACIENT);
+            rd.forward(request, response);
+        }
+    }
     
     private void patientToModify(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -224,7 +271,7 @@ public class PatientsController extends HttpServlet {
         patientModify.getClassificationValues();
         request.setAttribute("patientModify", patientModify);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_PACIENTS);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_LLISTA_PACIENTS);
         dispatcher.forward(request, response);
     }
    
@@ -286,7 +333,7 @@ public class PatientsController extends HttpServlet {
         }
           
         // Pas 6. Tornar a la jsp.
-        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_PACIENTS);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_LLISTA_PACIENTS);
         dispatcher.forward(request, response);
     }
     

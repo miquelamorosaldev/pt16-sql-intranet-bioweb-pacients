@@ -32,6 +32,7 @@ public class PatientWS extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session=request.getSession();
+        String patientsJsonResult = "";
         if(session.getAttribute("user")==null){
             // JSONWriter(response, "Error! No estàs registrat al servei.");
             PrintWriter out = response.getWriter();
@@ -50,28 +51,38 @@ public class PatientWS extends HttpServlet {
             patientDAO = new PatientsSQLDAO(path);
             
             List<Patient> patients = new ArrayList<>();
+            Patient patient = new Patient();
             String action=request.getParameter("action");
             switch(action){
                 case "ListAll":
                     // Llegim els pacients de la base de dades
                     patients = patientDAO.listAllPatients();
+                    // Posem la llista de pacients en un fitxer JSON.
+                    patientsJsonResult = gson.toJson(patients);
                     break;
                 case "ListNormalPatients": 
                     // Llegim els pacients de la base de dades
                     patients = patientDAO.filterByClassification("NORMAL");
+                    // Posem la llista de pacients en un fitxer JSON.
+                    patientsJsonResult = gson.toJson(patients);
                     break; 
-//                case "ListNormalPatients": 
-//                    // Llegim els pacients de la base de dades
-//                    patients = patientDAO.filterByClassification("NORMAL");
-//                    break; 
+                case "ListPatientsByClassification": 
+                    String classification=request.getParameter("classification");
+                    String result = patient.getClassificationValues().get(classification);
+                    if(result!=null) {
+                       // Llegim els pacients de la base de dades
+                        patients = patientDAO.filterByClassification(classification);
+                    } else {
+                        patientsJsonResult = "Error! Classificació del pacient no vàlida. Possibles valors: NORMAL, OESTOPENIA, OESTOPOROSI";
+                    }
+                    break; 
             }  
-            // Posem la llista de pacients en un fitxer JSON.
-            String patientsJsonString = gson.toJson(patients);
+            patientsJsonResult = gson.toJson(patients);
             // Responem incloent la llista de pacients en format JSON
             PrintWriter out = response.getWriter();
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            out.print(patientsJsonString);
+            out.print(patientsJsonResult);
             out.flush();
         }
     }

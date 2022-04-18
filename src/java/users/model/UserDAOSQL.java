@@ -85,7 +85,7 @@ public class UserDAOSQL implements IUserDAO {
                 user.setUsername(res.getString("username"));
                 user.setPassword(res.getString("password"));
                 user.setRole(
-                        Role.valueOf(res.getString("role")));
+                        Role.valueOf(res.getString("role").toUpperCase()));
                 list.add(user);
             }
 

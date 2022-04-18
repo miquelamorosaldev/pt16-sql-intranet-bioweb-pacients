@@ -110,7 +110,6 @@ public class UserController extends HttpServlet {
                  closeUserSession(response, request);
                  response.sendRedirect("login.jsp?error=1");
              } else {
-                 
                 session.setAttribute("usersList", usersManager.listAllUsers());
                 response.sendRedirect("./intranet/admin/usersList.jsp");
             }
