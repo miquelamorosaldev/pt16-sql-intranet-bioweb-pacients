@@ -156,6 +156,8 @@ public class PatientsSQLDAO implements IPatientsDAO{
                 patient.setImc(res.getDouble("IMC"));
                 patient.setClassification(res.getString("classificació"));
                 patient.setMenarche(res.getInt("menarquia"));
+                boolean menopause = !res.getString("menopausia").equals("NO");
+                patient.setMenopause(menopause);
                 patient.setMenopauseType(res.getString("tipusMenopausia"));
             }
             

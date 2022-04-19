@@ -124,10 +124,14 @@
                                     <input type="text" class="form-control" id="inputIMC" 
                                            value="${patientModify.imc}" name="inputIMC" required>
                                 </div>
+                                <div class="form-group col">
+                                   <input type="checkbox" name="inputMenopause" ${patientModify.menopause=='NO'?'':'checked'} class="form-check-input" id="menopause">
+                                   <label class="form-check-label" for="inputMenopause">Té menopausia</label>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary" 
                                     name="action" value="patientUpdate" id="patientUpdate">Modify</button>
-                            <button type="submit" class="btn btn-danger" name="action" value="listAll" id="patientModifyCancel">Cancel</button>
+                            <button type="submit" class="btn btn-danger" name="action" value="ListAll" id="patientModifyCancel">Cancel</button>
                         </form>
                     </c:if>
             </div>
