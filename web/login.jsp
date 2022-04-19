@@ -37,11 +37,11 @@ Els missatges estan a WEB-INF/classes
                         <img class="mb-4" src="./img/icon-bone.png" alt="icona d'un os trencant-se, oestoporosi" width="72" height="72">
                         <div class="form-group">
                             <label for="username">Username:</label> 
-                            <input type="text" name="username" class="form-control form-control-lg"/>
+                            <input type="text" name="username" class="form-control form-control-lg" required/>
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" name="password" class="form-control form-control-lg" />
+                            <input type="password" name="password" class="form-control form-control-lg" required/>
                         </div>    
                         <div class="form-group">
                             <button class="login-submit btn-lg" 

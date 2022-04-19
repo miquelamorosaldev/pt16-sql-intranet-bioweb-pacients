@@ -52,7 +52,7 @@
                             Mín: <input type="number" name="edatMin" 
                                         min="18" max="200" step="1" value="18">
                             Màx: <input type="number" name="edatMax" 
-                                       min="18" max="200" step="1" value="100">
+                                       min="18" max="200" step="1" value="200">
                         </div>
                         <!--
                         <div class="form-group row">

@@ -285,23 +285,27 @@ public class PatientsController extends HttpServlet {
             // Pas 3. Crear el objecte Pacient amb les dades vàlides.
             // int idFriend, String phone, String name, int age, int categoryId
 
-            // Pas 3.1 Consultem llista de pacients per a saber l'id de l'últim pacient.
-            List<Patient> lastPatient = patientsManager.listAllPatients();
-            registerId = lastPatient.get(lastPatient.size()-1).getRegisterId();
-            registerId++;
-            
-            Patient newPatientData = 
-                new Patient(registerId, edat, 75, 170, imc, inputClassification, menarquia, hasMenopause, "NORMAL");
-        
-            // Pas 4. Inserim el pacient a la base de dades.
-            int rowsAffected = patientsManager.insert(newPatientData);
-            
-            // Pas 5. Informar a l'usuari com ha anat l'inser.
-            if (rowsAffected > 0) {
-                request.setAttribute("success", "Patient with id " 
-                        + newPatientData.getRegisterId() + " Successfully modified :) !");
+            if(validFields = true) {
+                // Pas 3.1 Consultem llista de pacients per a saber l'id de l'últim pacient.
+                List<Patient> lastPatient = patientsManager.listAllPatients();
+                registerId = lastPatient.get(lastPatient.size()-1).getRegisterId();
+                registerId++;
+
+                Patient newPatientData = 
+                    new Patient(registerId, edat, 75, 170, imc, inputClassification, menarquia, hasMenopause, "NORMAL");
+
+                // Pas 4. Inserim el pacient a la base de dades.
+                int rowsAffected = patientsManager.insert(newPatientData);
+
+                // Pas 5. Informar a l'usuari com ha anat l'inser.
+                if (rowsAffected > 0) {
+                    request.setAttribute("success", "Patient with id " 
+                            + newPatientData.getRegisterId() + " Successfully Created :) !");
+                } else {
+                    request.setAttribute("error", "Patient not Created :( !");
+                }
             } else {
-                request.setAttribute("error", "Patient not updated :( !");
+                request.setAttribute("error", "Error. Alguns dels camps introduïts no són vàlids.");
             }
           
             Patient patientAdd = new Patient();
@@ -371,21 +375,24 @@ public class PatientsController extends HttpServlet {
  
         // Pas 3. Crear el objecte Pacient amb les dades vàlides.
         // int idFriend, String phone, String name, int age, int categoryId
+        if(validFields = true) {    
             
-        newPatientData = 
-           new Patient(registerId, edat, 75, 170, imc, inputClassification, menarquia, hasMenopause , "NORMAL");
-            
-        // Pas 4. TODO Realitzar update a la BBDD.
-        int rowsAffected = patientsManager.update(newPatientData);
-        
-        // Pas 5. Informar a l'usuari com ha anat l'udpate.
-        if (rowsAffected > 0) {
-            request.setAttribute("success", "Patient with id " 
-                    + newPatientData.getRegisterId() + " Successfully modified :) !");
+            newPatientData = 
+               new Patient(registerId, edat, 75, 170, imc, inputClassification, menarquia, hasMenopause , "NORMAL");
+
+            // Pas 4. TODO Realitzar update a la BBDD.
+            int rowsAffected = patientsManager.update(newPatientData);
+
+            // Pas 5. Informar a l'usuari com ha anat l'udpate.
+            if (rowsAffected > 0) {
+                request.setAttribute("success", "Patient with id " 
+                        + newPatientData.getRegisterId() + " Successfully modified :) !");
+            } else {
+                request.setAttribute("error", "Error. Patient not updated :( !");
+            }
         } else {
-            request.setAttribute("error", "Error. Patient not updated :( !");
+            request.setAttribute("error", "Error. Alguns dels camps introduïts no són vàlids.");
         }
-          
         // Pas 6. Tornar a la jsp.
         RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_LLISTA_PACIENTS);
         dispatcher.forward(request, response);
