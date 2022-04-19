@@ -29,23 +29,29 @@
                 <h3>Afegir pacient</h3>
                 <!-- RWD Form -->
                 <!-- https://getbootstrap.com/docs/4.1/components/forms/ -->
-                <form method="post" action="page3-addPatient.jsp">
-                        <form action="patientController" method="POST">
+                    <%-- requestScope, Per a llegir  request.getAttribute dels servlets --%>
+                    <c:if test="${requestScope.success != null}">
+                        <p class='alert alert-success'>${requestScope.success}</p>
+                    </c:if>
+                    <c:if test="${requestScope.error != null}">
+                        <p class='alert alert-warning'>${requestScope.error}</p>
+                    </c:if>
+                    <form action="patient" method="POST">
                             <div class="row justify-content-center">
                                 <!-- 
                                 L'id del pacient es generarà posteriorment.
                                 -->
                                 <div class="form-group col">
                                     <label for="inputAge">Edat</label>
-                                    <input type="number" class="form-control" id="inputAge" max="150" min="10"
+                                    <input type="number" class="form-control" id="inputAge" max="150" min="30"
                                            value="${patientAdd.age}" name="inputAge" required>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="inputAge">Menarquia</label>
+                                    <label for="inputMenarche">Menarquia</label>
                                     <i id="info-menarquia"  class="fa fa-info-circle" rel="tooltip" 
                                        title="La menarquia és l'edat en la que la pacient va tenir la primera menstruació." ></i>
                                     <input type="number" class="form-control" id="inputMenarche" min="5" max="20" 
-                                           value="${patientAdd.menarche}" name="menarche" required>
+                                           value="${patientAdd.menarche}" name="inputMenarche" required>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
@@ -54,7 +60,7 @@
                                         Classficació resultats estudi.
                                     </label>
                                     <!-- https://metamug.com/article/jsp/jsp-select-option-list-index.html -->
-                                    <select class="form-control" name="classificationValues"> 
+                                    <select class="form-control" name="inputClassification"> 
                                          <c:forEach var="item" items="${patientAdd.classificationValues}" >
                                             <option value='${item.key}'>
                                                 ${item.value}
@@ -65,14 +71,13 @@
                                 <div class="form-group col">
                                    <label for="inputIMC">IMC</label>
                                    <a class="small" href="https://medlineplus.gov/spanish/ency/article/007196.htm" target="_blank">Què és l'IMC?</a>
-                                    <input type="text" class="form-control" id="imc" 
-                                           value="${patientAdd.imc}" name="imc" required>
+                                    <input type="text" class="form-control" id="inputIMC" 
+                                           value="${patientAdd.imc}" name="inputIMC" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary" 
-                                    name="action" value="patientAdd" id="patientAdd">Afegir</button>
-                        </form>
-                </form> 
+                                    name="action" value="AddPatient" id="AddPatient">Afegir</button>
+                   </form>
             </div>
         </main>
         <footer>

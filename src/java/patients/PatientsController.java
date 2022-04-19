@@ -230,6 +230,10 @@ public class PatientsController extends HttpServlet {
             // 2. Enviem un pacient buit a la JSP per a qu'e l'usuari l'ompli.
             Patient patientAdd = new Patient();
             patientAdd.getClassificationValues();
+            patientAdd.setAge(40);
+            patientAdd.setMenarche(15);
+            patientAdd.setImc(25.0);
+            patientAdd.setClassification("---");
             request.setAttribute("patientAdd", patientAdd);
             RequestDispatcher rd = request.getRequestDispatcher(PAGINA_ALTA_PACIENT);
             rd.forward(request, response);
@@ -240,19 +244,68 @@ public class PatientsController extends HttpServlet {
             HttpServletResponse response)
            throws ServletException, IOException {
 
-        // 1. Verifiquem la validesa de la sessió de l'usuari. 
+        // Pas 1. Verifiquem la validesa de la sessió de l'usuari. 
         HttpSession session=request.getSession();
         if(session.getAttribute("user")==null) { 
             if(session.getAttribute("admin")==null){
                 response.sendRedirect("login.jsp");
             }
         } else {
-            // 2. Verifiquem la validesa de les dades introduïdes.
+            // Pas 2. Verifiquem la validesa de les dades introduïdes.
+            boolean validFields = true;
+                int edat = 0, menarquia = 0, registerId = 0;
+
+                // Agafem el id de la categoria des d'un camp select.
+                String inputClassification = request.getParameter("inputClassification");
+                validFields = inputClassification!=null;
+
+                // Camps numèrics enters.
+                String inputAge = request.getParameter("inputAge");
+                if(inputAge!=null)
+                    edat = Integer.parseInt(inputAge);
+
+                String inputMenarche = request.getParameter("inputMenarche");
+                menarquia = Integer.parseInt(inputMenarche);
+
+                // Camp numèric decimal.
+                String inputIMC = request.getParameter("inputIMC");
+                double imc = Double.parseDouble(inputIMC);
+
+                // Pendent d'implementar el camp.
+                boolean hasMenopause = edat>50?false:true;
+
+                // Pas 2. Validem les dades del form si han estat totes inserides. 
+                // Si no son correctes, informem a l'usuari.
+               if(validFields = true) {
+                    validFields = validFields && registerId > 1;
+                    validFields = validFields && menarquia > 5 && menarquia < 25;
+                    validFields = validFields && edat > 15 && edat < 150;
+               }
+               
+            // Pas 3. Crear el objecte Pacient amb les dades vàlides.
+            // int idFriend, String phone, String name, int age, int categoryId
+
+            // Pas 3.1 Consultem llista de pacients per a saber l'id de l'últim pacient.
+            List<Patient> lastPatient = patientsManager.listAllPatients();
+            registerId = lastPatient.get(lastPatient.size()-1).getRegisterId();
+            registerId++;
             
-            // 2. Enviem un pacient buit a la JSP per a qu'e l'usuari l'ompli.
+            Patient newPatientData = 
+                new Patient(registerId, edat, 75, 170, imc, inputClassification, menarquia, hasMenopause, "NORMAL");
+        
+            // Pas 4. Inserim el pacient a la base de dades.
+            int rowsAffected = patientsManager.insert(newPatientData);
+            
+            // Pas 5. Informar a l'usuari com ha anat l'inser.
+            if (rowsAffected > 0) {
+                request.setAttribute("success", "Patient with id " 
+                        + newPatientData.getRegisterId() + " Successfully modified :) !");
+            } else {
+                request.setAttribute("error", "Patient not updated :( !");
+            }
+          
             Patient patientAdd = new Patient();
-            patientAdd.getClassificationValues();
-//            request.etAttribute("patientAdd", patientAdd);
+            request.setAttribute("patientAdd", patientAdd);
             RequestDispatcher rd = request.getRequestDispatcher(PAGINA_ALTA_PACIENT);
             rd.forward(request, response);
         }
@@ -302,7 +355,8 @@ public class PatientsController extends HttpServlet {
         menarquia = Integer.parseInt(inputMenarche);
             
         // Camp numèric decimal.
-        // String inputIMC = request.getParameter("inputIMC");
+        String inputIMC = request.getParameter("inputIMC");
+        double imc = Double.parseDouble(inputIMC);
             
         // Pendent d'implementar el camp.
         boolean hasMenopause = edat>50?false:true;
@@ -319,7 +373,7 @@ public class PatientsController extends HttpServlet {
         // int idFriend, String phone, String name, int age, int categoryId
             
         newPatientData = 
-           new Patient(registerId, edat, 75, 170, inputClassification, menarquia, hasMenopause , "NORMAL");
+           new Patient(registerId, edat, 75, 170, imc, inputClassification, menarquia, hasMenopause , "NORMAL");
             
         // Pas 4. TODO Realitzar update a la BBDD.
         int rowsAffected = patientsManager.update(newPatientData);
@@ -329,7 +383,7 @@ public class PatientsController extends HttpServlet {
             request.setAttribute("success", "Patient with id " 
                     + newPatientData.getRegisterId() + " Successfully modified :) !");
         } else {
-            request.setAttribute("error", "Patient not updated :( !");
+            request.setAttribute("error", "Error. Patient not updated :( !");
         }
           
         // Pas 6. Tornar a la jsp.

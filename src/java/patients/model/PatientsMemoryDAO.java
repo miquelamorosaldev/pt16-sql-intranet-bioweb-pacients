@@ -136,5 +136,10 @@ public class PatientsMemoryDAO implements IPatientsDAO{
     public int update(Patient newPatientData) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public int insert(Patient newPatientData) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

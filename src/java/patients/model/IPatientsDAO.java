@@ -25,4 +25,6 @@ public interface IPatientsDAO {
     public List<Patient> filter(String classification, int edatMin, int edatMax);
 
     public int update(Patient newPatientData);
+
+    public int insert(Patient newPatientData);
 }

@@ -278,11 +278,33 @@ public class PatientsSQLDAO implements IPatientsDAO{
         } 
         return rowsAffected;
     }
+    
+    
 
-    @Override
-    public boolean addPatient(Patient patient) {
-        // NOTA: Pending to validate Patient if exist or not.
-        return patients.add(patient);
+    public int insert(Patient patient) {
+        int rowsAffected = 0;
+        try ( Connection conn = dataSource.getConnection();
+              PreparedStatement pst = conn.prepareStatement(getQuery("INSERT")); )
+        {
+            // Fill the ? in the query: 
+            // INSERT INTO Patient (idRegistre, edat, pes, talla, IMC, classificació, menarquia, menopausia) 
+            // VALUES (?, ?, 75, 170, ?, ?, ?, 'NO')
+            pst.setInt(1, patient.getRegisterId());
+            pst.setInt(2, patient.getAge());
+            pst.setString(3, patient.getAgeGroup());
+            pst.setDouble(4, patient.getImc());
+            pst.setString(5, patient.getClassification());
+            pst.setInt(6, patient.getMenarche());
+            rowsAffected = pst.executeUpdate();
+        } catch (SQLException e) {
+            try {
+                rowsAffected = 0;
+                throw new DBConnectionException("Error a l'actualitzar el pacient a la base de dades.");
+            } catch (DBConnectionException ex) {
+                Logger.getLogger(PatientsSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+        return rowsAffected;
     }
     
     public List<Patient> listWomanPatients() {
@@ -337,6 +359,11 @@ public class PatientsSQLDAO implements IPatientsDAO{
             }
         }
         return filteredPatients;
+    }
+
+    @Override
+    public boolean addPatient(Patient patient) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
