@@ -172,6 +172,11 @@ public class UserController extends HttpServlet {
     private void logout(HttpServletRequest request, HttpServletResponse response) 
             throws IOException {
         response.setContentType("text/html");
+        HttpSession session=request.getSession();
+//        String loginURL = "./../login.jsp";
+//        System.out.println(request.getContextPath());
+//            loginURL = "./../../login.jsp";
+//        
         closeUserSession(response, request);
     	  // System.out.println("User="+session.getAttribute("user"));
     	  /* Codi redundant.
@@ -181,7 +186,7 @@ public class UserController extends HttpServlet {
             session.invalidate();
     	   }
         */
-        response.sendRedirect("login.jsp");
+        response.sendRedirect(request.getContextPath()+"/login.jsp");
     }
 
     private void closeUserSession(HttpServletResponse response, HttpServletRequest request) {

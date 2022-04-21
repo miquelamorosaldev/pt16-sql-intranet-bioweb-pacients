@@ -56,7 +56,7 @@
            href='../intranet/adn-gen.jsp'>ADN Gen (Pt14Opt)</a>
         -->
         <a class='flex-sm-fill text-sm-center nav-link active opt-menu' 
-           href='../user?action=Invalidate'>Logout</a>
+           href='<%= request.getContextPath() %>/user?action=Invalidate'>Logout</a>
         <%      
             } 
         %>
