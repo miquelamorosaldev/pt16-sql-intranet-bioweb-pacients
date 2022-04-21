@@ -34,26 +34,32 @@
                                 <option value="-">RH-</option>
                             </select>
                         </div> -->
-                        <div class="form-group row">
-                            <label class="input-group-prepend col-sm-3" for="classfication_filter">
-                                Classficació resultats estudi.
-                            </label>
-                            <select class="form-control custom-select col-sm-3" name="classfication_filter" id="classfication_filter">
-                                <option value="*">---</option>
-                                <option value="NORMAL">NORMAL</option>
-                                <option value="OSTEOPENIA">OSTEOPENIA</option>
-                                <option value="OSTEOPOROSI">OSTEOPOROSI</option>
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label class="input-group-prepend col-sm-3" for="classfication_filter">
-                                Interval d'edad.
-                            </label>
-                            Mín: <input type="number" name="edatMin" 
-                                        min="18" max="200" step="1" value="18">
-                            Màx: <input type="number" name="edatMax" 
-                                       min="18" max="200" step="1" value="100">
-                        </div>
+                        
+                            <div class="form-group">
+                                <label class="input-group-prepend" for="classfication_filter">
+                                    Classficació resultats estudi.
+                                </label>
+                                <select class="form-control custom-select" name="classfication_filter" id="classfication_filter">
+                                    <option value="*">---</option>
+                                    <option value="NORMAL">NORMAL</option>
+                                    <option value="OSTEOPENIA">OSTEOPENIA</option>
+                                    <option value="OSTEOPOROSI">OSTEOPOROSI</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-check-label" for="menopause_filter">Té menopausia</label>
+                                <input class="" type="checkbox"  name="menopause_filter" id="menopause_filter" />
+                            </div>
+                            <div class="form-group">
+                                <label class="input-group-prepend col-sm-3" for="classfication_filter">
+                                    Interval d'edad.
+                                </label>
+                                Mín: <input type="number" name="edatMin" 
+                                            min="18" max="200" step="1" value="18">
+                                Màx: <input type="number" name="edatMax" 
+                                           min="18" max="200" step="1" value="200">
+                            </div>
+                        
                         <!--
                         <div class="form-group row">
                             <label class="input-group-prepend col-sm-2" for="bloodType_form">

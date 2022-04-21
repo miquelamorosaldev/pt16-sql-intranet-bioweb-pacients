@@ -1,7 +1,7 @@
 # pt16-sql-intranet-bioweb-pacients
 
 ## ESTAT VERSIÓ: 
-Plantilla PT16. INCOMPLET.
+# Plantilla PT16. COMPLETA
 
 L'objectiu és continuar el projecte de la PT15, amb connexió a una base de dades MySQL o MariaDb. 
 Aprofitarem per afegir alguna funcionalitat més: més opcions de cerca i opcions de CRUD pels pacients. 
