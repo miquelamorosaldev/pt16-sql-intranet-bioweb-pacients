@@ -30,9 +30,9 @@
             && (session.getAttribute("role").equals("ADMIN")) ) { %>
         <!-- Menú navegació usuaris registrats Intranet com a admin. -->
             <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
-               href='<%= request.getContextPath() %>/patient?action=AddPatientForm'>Add Patient</a>
+               href='<%= request.getContextPath() %>/patient?action=AddPatientForm'>Add</a>
             <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
-               href='<%= request.getContextPath() %>/user?action=AdminPage'>List Users</a>
+               href='<%= request.getContextPath() %>/user?action=AdminPage'>AdminUsers</a>
         <%      
             } else {
         %>
@@ -46,9 +46,11 @@
            href='../intranet/listAllPatients.jsp'>List Patients</a> 
         -->
         <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
-           href='<%= request.getContextPath() %>/patient?action=ListAll'>List Patients</a> 
+           href='<%= request.getContextPath() %>/patient?action=ListAll'>List</a> 
         <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
-           href='<%= request.getContextPath() %>/intranet/filterPatients.jsp'>Filter Patients</a>
+           href='<%= request.getContextPath() %>/intranet/filterPatients.jsp'>Filter</a>
+        <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
+           href='<%= request.getContextPath() %>/patient?action=GraficCircularPacients'>Graph</a> 
         <!--
         <a class='flex-sm-fill text-sm-center nav-link opt-menu' 
            href='../intranet/adn-gen.jsp'>ADN Gen (Pt14Opt)</a>

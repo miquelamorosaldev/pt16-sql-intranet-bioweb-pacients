@@ -8,7 +8,9 @@ package patients;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -43,6 +45,9 @@ public class PatientsController extends HttpServlet {
     private static final String PAGINA_LLISTA_PACIENTS = "./intranet/listAllPatients.jsp";
     private static final String PAGINA_ALTA_PACIENT 
             = "./intranet/admin/addPatient.jsp";
+    private static final String PAGINA_GRAFIC_PACIENTS
+            = "./intranet/grafic2.jsp";
+    
     @Override
     public void init(ServletConfig config) throws ServletException{
         super.init(config);
@@ -86,6 +91,9 @@ public class PatientsController extends HttpServlet {
                 break;
                 case "FILTER_BYCLASSIFICATION":
                     filterByClassification(request,response);
+                break;
+                case "GraficCircularPacients":
+                    pieChartPatientsClassification(request,response);
                 break;
                 
                 // NO HO NECESSITEM.
@@ -392,6 +400,82 @@ public class PatientsController extends HttpServlet {
     }
     
     
+    /**
+     * Retorna a la JSP les dades necessàries per a crear un diagrama
+     * circular de la classificació de casos dels pacients; quants tenen
+     * una situació normal, quants tenen oestopenia i quants tenen oestoporosi.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
+    private void pieChartPatientsClassification(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Llegim els pacients de la base de dades
+        List<Patient> lastPatient = patientsManager.listAllPatients();
+        
+        // Ara, creem un mapa que presenti les dades que necessita pel gràifc.
+        Map<String,Double> patientsClasssificationPieChart 
+                = patientsClasssificationPieChart(lastPatient);
+               
+//        // Li podem enviar la llista de pacients com a Atribut.
+        request.setAttribute("patientsMap", patientsClasssificationPieChart);
+        
+        // Hem usat la llibreria JFreeChart per aconseguir-ho, està aplicada a la JSP.
+        RequestDispatcher rd = request.getRequestDispatcher(PAGINA_GRAFIC_PACIENTS);
+        rd.forward(request, response);
+    }
+    
+    
+    /**
+     * Fa un recompte de la classifiació del número 
+     * de pacients. És a dir; quants estan normal, quants tenen osteopenia 
+     * i quants osteoporosi
+     * @return a Map with
+     */
+    private Map<String,Double> patientsClasssificationPieChart(List<Patient> listPatients) {
+        Map<String,Double> result 
+                = new HashMap<String,Double>();
+        
+        // The result should be like this:
+//        result.put("Normal",6.0);
+//        result.put("Oestopenia",3.0);
+//        result.put("Oestoporosi",2.0);
+
+        // Steps
+        
+        // 1. Define names and counters for each patient classification.
+        // The solution is not generic, but in this case, 
+        // with only 3 categories it's OK
+        double cat1NumNormal = 0.0;
+        double cat2NumOestopenia = 0.0;
+        double cat3NumOestoporosi = 0.0;
+        
+        // Aux String with the class. of the patient in the loop.
+        String selectedPatientClassification = "";
+        
+        // 2. Now we loop all the patients and count 
+        // the number of patients in each cateogory. 
+        for(Patient pat: listPatients) {
+            selectedPatientClassification = pat.getClassification();
+            switch (selectedPatientClassification) {
+                case "NORMAL":
+                    cat1NumNormal++;
+                    break;
+                case "OSTEOPENIA":
+                    cat2NumOestopenia++;
+                    break;
+                case "OSTEOPOROSI":
+                    cat3NumOestoporosi++;
+                    break;
+            }
+        }
+        
+        // 3. At last, we put the results in the Map
+        result.put("Normal",cat1NumNormal);
+        result.put("Oestopenia",cat2NumOestopenia);
+        result.put("Oestoporosi",cat3NumOestoporosi);        
+        return result;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
