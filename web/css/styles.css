@@ -52,6 +52,16 @@ h3, label {
   margin: auto;
 }
 
+patientForm {
+    max-width: 12rem;
+    padding: 1rem;
+}
+
+.row {
+    display:flex;
+    flex-direction:row;
+}
+
 /*
 .form-signin .checkbox {
   font-weight: 400;

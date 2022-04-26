@@ -36,17 +36,17 @@
                     <c:if test="${requestScope.error != null}">
                         <p class='alert alert-warning'>${requestScope.error}</p>
                     </c:if>
-                    <form action="patient" method="POST">
+                    <form id="patientForm" name="patientForm" action="patient" method="POST">
                             <div class="row justify-content-center">
                                 <!-- 
                                 L'id del pacient es generarà posteriorment.
                                 -->
-                                <div class="form-group col">
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                     <label for="inputAge">Edat</label>
                                     <input type="number" class="form-control" id="inputAge" max="150" min="30"
                                            value="${patientAdd.age}" name="inputAge" required>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                     <label for="inputMenarche">Menarquia</label>
                                     <i id="info-menarquia"  class="fa fa-info-circle" rel="tooltip" 
                                        title="La menarquia és l'edat en la que la pacient va tenir la primera menstruació." ></i>
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="form-group col">
+                                <div class="form-group col-md-6 col-sm-6 col-sm-12">
                                     <label for="inputClassification">
                                         Classficació resultats estudi.
                                     </label>
@@ -68,7 +68,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-6 col-sm-6 col-sm-12">
                                    <label for="inputIMC">IMC</label>
                                    <a class="small" href="https://medlineplus.gov/spanish/ency/article/007196.htm" target="_blank">Què és l'IMC?</a>
                                     <input type="text" class="form-control" id="inputIMC" 
