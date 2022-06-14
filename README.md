@@ -29,8 +29,8 @@ Només en el cas que l’usuari i contrasenya tinguin un format valid i existeix
 * Llistat d’usuaris de la Base de dades (només per a administradors)
 * Logout (usuaris registrats)
 * Filtrar la llista de pacients per RH, Grup Sanguini i altres ...
-* Editar i eliminar pacients. (NOVA FUNCIONALITAT OBLIGATÒRIA PER LA PT16)
-* Mostrar la informació dels pacients en un web service. (NOVA FUNCIONALITAT OBLIGATÒRIA PER LA PT16)
+* Editar i eliminar pacients.
+* Mostrar la informació dels pacients en un web service.
 
 ## FUNCIONALITATS JA FETES (NOMÉS DISPONIBLES PER USUARIS REGISTRATS).
 * Tractament cadenes ADN
